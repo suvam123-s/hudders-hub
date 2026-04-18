@@ -1,0 +1,1 @@
+# Push to GitHub Plan Steps&#10;&#10;1. [ ] Stage modified files: `git add Login.php`&#10;2. [ ] Commit changes: `git commit -m "Update Login.php"`&#10;3. [ ] Push to origin main: `git push origin main`&#10;4. [ ] Verify status and log&#10;

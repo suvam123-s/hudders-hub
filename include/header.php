@@ -37,3 +37,6 @@ $pageTitle = $pageTitle ?? 'Hudders Hub Market';
 
   </div>
 </header>
+
+<li><a href="shop.php">Shop</a></li>
+

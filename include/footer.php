@@ -23,7 +23,7 @@
     <div class="footer-col">
       <h4>Privacy</h4>
       <ul>
-        <li><a href="#">Terms and Condition</a></li>
+        <a href="terms.php">Terms and Conditions</a>
         <li><a href="#">Privacy Policy</a></li>
       </ul>
     </div>
@@ -35,7 +35,7 @@
         <li><a href="about.php">About Us</a></li>
         <li><a href="#">Google Map</a></li>
         <li><a href="#">FAQs</a></li>
-        <li><a href="#">Teams</a></li>
+        <li><a href="terms.php">Terms and Conditions</a></li>
         <li><a href="contact.php">Contact Us</a></li>
       </ul>
     </div>

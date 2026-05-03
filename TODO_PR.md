@@ -1,0 +1,1 @@
+# Create Pull Request Plan Steps&#10;&#10;1. [ ] Install GitHub CLI&#10;2. [ ] Authenticate gh&#10;3. [ ] Create branch blackboxai/pr-changes&#10;4. [ ] Update TODO.md with summary&#10;5. [ ] Commit and push branch&#10;6. [ ] Create PR to main&#10;

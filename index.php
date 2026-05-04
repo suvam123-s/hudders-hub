@@ -19,7 +19,7 @@ include 'include/header.php';
       </p>
       <div class="hero-btns">
         <a href="customer/shop.php" class="btn btn-dark">Shop Now</a>
-        <a href="about.php" class="btn btn-outline-dark">About Us</a>
+        <a href="aboutus.php" class="btn btn-outline-dark">About Us</a>
       </div>
     </div>
 
@@ -41,23 +41,33 @@ include 'include/header.php';
   <div class="traders-grid">
     <div class="trader-card">
       <div class="trader-img"><img src="assets/css/image/greengrocer.jpg" alt="Greengrocer"></div>
-      <div class="trader-info"><span class="trader-name">Greens & Roots</span><p>Fresh seasonal fruit and vegetables direct from local farms.</p></div>
+      <div class="trader-info"><span class="trader-name">Greens & Roots</span>
+        <p>Fresh seasonal fruit and vegetables direct from local farms.</p>
+      </div>
     </div>
     <div class="trader-card">
       <div class="trader-img"><img src="assets/css/image/fishmonger.jpeg" alt="Fishmonger"></div>
-      <div class="trader-info"><span class="trader-name">The Harbour Fish Co.</span><p>Fresh catch delivered daily from the coast.</p></div>
+      <div class="trader-info"><span class="trader-name">The Harbour Fish Co.</span>
+        <p>Fresh catch delivered daily from the coast.</p>
+      </div>
     </div>
     <div class="trader-card">
       <div class="trader-img"><img src="assets/css/image/bakery.jpeg" alt="Bakery"></div>
-      <div class="trader-info"><span class="trader-name">The Old Mill Bakery</span><p>Artisan breads baked fresh each morning.</p></div>
+      <div class="trader-info"><span class="trader-name">The Old Mill Bakery</span>
+        <p>Artisan breads baked fresh each morning.</p>
+      </div>
     </div>
     <div class="trader-card">
       <div class="trader-img"><img src="assets/css/image/butcher.jpeg" alt="Butcher"></div>
-      <div class="trader-info"><span class="trader-name">Hendersons Butchers</span><p>Family-run butchers with 40 years tradition.</p></div>
+      <div class="trader-info"><span class="trader-name">Hendersons Butchers</span>
+        <p>Family-run butchers with 40 years tradition.</p>
+      </div>
     </div>
     <div class="trader-card">
       <div class="trader-img"><img src="assets/css/image/deli.jpeg" alt="Delicatessen"></div>
-      <div class="trader-info"><span class="trader-name">La Belle Delicatessen</span><p>Continental cheeses and fine foods.</p></div>
+      <div class="trader-info"><span class="trader-name">La Belle Delicatessen</span>
+        <p>Continental cheeses and fine foods.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -73,50 +83,50 @@ include 'include/header.php';
 
     <div class="product-card">
       <div class="product-img">
-        <img src="assets/css/image/broccoli.png" alt="Broccoli">
+        <a href="product_detail.php?id=1"><img src="assets/css/image/broccoli.png" alt="Broccoli"></a>
       </div>
-      <h3>Broccoli</h3>
+      <h3><a href="product_detail.php?id=1">Broccoli</a></h3>
       <div class="stars">
         <span>★★★★☆</span>
         <span>4.5/5</span>
       </div>
-      <a href="customer/shop.php" class="btn btn-green btn-sm">Buy Now</a>
+      <a href="product_detail.php?id=1" class="btn btn-green btn-sm">Buy Now</a>
     </div>
 
     <div class="product-card">
       <div class="product-img">
-        <img src="assets/css/image/salmon.png" alt="Salmon">
+        <a href="product_detail.php?id=2"><img src="assets/css/image/salmon.png" alt="Salmon"></a>
       </div>
-      <h3>Salmon</h3>
+      <h3><a href="product_detail.php?id=2">Salmon</a></h3>
       <div class="stars">
         <span>★★★★☆</span>
         <span>4.5/5</span>
       </div>
-      <a href="customer/shop.php" class="btn btn-green btn-sm">Buy Now</a>
+      <a href="product_detail.php?id=2" class="btn btn-green btn-sm">Buy Now</a>
     </div>
 
     <div class="product-card">
       <div class="product-img">
-        <img src="assets/css/image/sourdough.png" alt="Sourdough">
+        <a href="product_detail.php?id=3"><img src="assets/css/image/sourdough.png" alt="Sourdough"></a>
       </div>
-      <h3>Sourdough</h3>
+      <h3><a href="product_detail.php?id=3">Sourdough</a></h3>
       <div class="stars">
         <span>★★★★☆</span>
         <span>4.5/5</span>
       </div>
-      <a href="customer/shop.php" class="btn btn-green btn-sm">Buy Now</a>
+      <a href="product_detail.php?id=3" class="btn btn-green btn-sm">Buy Now</a>
     </div>
 
     <div class="product-card">
       <div class="product-img">
-        <img src="assets/css/image/steak.png" alt="Steak">
+        <a href="product_detail.php?id=4"><img src="assets/css/image/steak.png" alt="Steak"></a>
       </div>
-      <h3>Steak</h3>
+      <h3><a href="product_detail.php?id=4">Steak</a></h3>
       <div class="stars">
         <span>★★★★☆</span>
         <span>4.5/5</span>
       </div>
-      <a href="customer/shop.php" class="btn btn-green btn-sm">Buy Now</a>
+      <a href="product_detail.php?id=4" class="btn btn-green btn-sm">Buy Now</a>
     </div>
 
   </div>

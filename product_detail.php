@@ -1,41 +1,68 @@
 <?php
-$pageTitle = 'Product Detail – Hudders Hub';
+session_start();
+
+// ── Product Data (acts as a simple backend) ──
+$products = [
+    1 => [
+        'name'    => 'Broccoli',
+        'price'   => 2.50,
+        'image'   => 'assets/css/image/broccoli.png',
+        'rating'  => 4,
+        'desc'    => 'Fresh organic broccoli sourced from local farms in Cleckhudderfax. Rich in vitamins C and K, this vibrant green vegetable is perfect for stir-fries, steaming, or roasting. Our broccoli is hand-picked at peak freshness to ensure the best taste and nutritional value. Each head is carefully inspected for quality before making it to our shelves.',
+        'allergy' => 'No known allergens. However, please wash thoroughly before consumption.',
+    ],
+    2 => [
+        'name'    => 'Salmon',
+        'price'   => 12.99,
+        'image'   => 'assets/css/image/salmon.png',
+        'rating'  => 5,
+        'desc'    => 'Premium Atlantic salmon fillet delivered fresh daily from The Harbour Fish Co. Rich in omega-3 fatty acids and high-quality protein. Our salmon is sustainably sourced and perfect for grilling, baking, or pan-searing. Each fillet is carefully trimmed and deboned for your convenience.',
+        'allergy' => 'Contains: Fish. May contain traces of crustaceans and molluscs. Not suitable for those with fish allergies.',
+    ],
+    3 => [
+        'name'    => 'Sourdough',
+        'price'   => 4.50,
+        'image'   => 'assets/css/image/sourdough.png',
+        'rating'  => 4,
+        'desc'    => 'Artisan sourdough bread baked fresh each morning at The Old Mill Bakery. Made using a traditional 48-hour fermentation process with our 25-year-old starter culture. The result is a beautifully crusty loaf with a soft, tangy interior. Perfect for sandwiches, toast, or simply enjoyed with butter.',
+        'allergy' => 'Contains: Wheat (Gluten). May contain traces of milk, eggs, sesame, and nuts. Produced in a bakery that handles multiple allergens.',
+    ],
+    4 => [
+        'name'    => 'Steak',
+        'price'   => 15.99,
+        'image'   => 'assets/css/image/steak.png',
+        'rating'  => 5,
+        'desc'    => 'Premium 28-day aged sirloin steak from Hendersons Butchers. Our beef is sourced from grass-fed cattle raised on local Yorkshire farms. Each cut is hand-selected by our master butcher for optimal marbling and tenderness. Perfect for grilling or pan-frying to your preferred doneness.',
+        'allergy' => 'No known allergens. Suitable for most diets. Please note this product is processed in a facility that also handles other meats.',
+    ],
+];
+
+// ── Get product from URL ──
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if (!isset($products[$id])) {
+    // Redirect to homepage if product not found
+    header('Location: index.php');
+    exit;
+}
+
+$product = $products[$id];
+$pageTitle = htmlspecialchars($product['name']) . ' – Hudders Hub';
+
+// Build star display
+$stars = str_repeat('★', $product['rating']) . str_repeat('☆', 5 - $product['rating']);
+
+// Get similar products (all except current)
+$similar = array_filter($products, function($key) use ($id) {
+    return $key !== $id;
+}, ARRAY_FILTER_USE_KEY);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="View product details, reviews, and similar products at Hudders Hub Market.">
-  <title><?= htmlspecialchars($pageTitle) ?></title>
-  <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body class="product-detail-page">
+<?php include 'include/header.php'; ?>
 
-<!-- Page-specific header matching the wireframe (Shop / Log Out instead of Login / Register) -->
-<header class="site-header">
-  <div class="header-inner">
-    <!-- Logo -->
-    <div class="logo">
-      <a href="index.php">
-        <img src="assets/css/image/logo.png" alt="Hudders Hub Logo">
-      </a>
-    </div>
+<style>
+  body { background: var(--beige-light); }
+</style>
 
-    <!-- Search -->
-    <form class="search-form" action="customer/shop.php" method="get">
-      <input type="text" name="q" placeholder="Search Product">
-      <button type="submit">🔍</button>
-    </form>
-
-    <!-- Header Actions -->
-    <div class="header-actions">
-      <a href="customer/shop.php" class="btn btn-outline">Shop</a>
-      <a href="index.php" class="btn btn-dark">Log Out</a>
-      <a href="customer/cart.php" class="cart-icon">🛒</a>
-    </div>
-  </div>
-</header>
 
 <!-- ====== MAIN PRODUCT SECTION ====== -->
 <section class="product-detail-main">
@@ -43,19 +70,19 @@ $pageTitle = 'Product Detail – Hudders Hub';
 
     <!-- Left: Product Image -->
     <div class="product-detail-image">
-      <img src="assets/css/image/_ (14).jpeg" alt="Product Image">
+      <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
     </div>
 
     <!-- Right: Product Info -->
     <div class="product-detail-info">
-      <h1 class="product-detail-title">Product Name</h1>
-      <p class="product-detail-price">Price:<strong>$300.00</strong></p>
-      <div class="product-detail-stars">★★</div>
+      <h1 class="product-detail-title"><?= htmlspecialchars($product['name']) ?></h1>
+      <p class="product-detail-price">Price: <strong>$<?= number_format($product['price'], 2) ?></strong></p>
+      <div class="product-detail-stars"><?= $stars ?></div>
       <p class="product-detail-desc">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada nulla nec augue rhoncus, eget ullamcorper nulla ultricies. Fusce vulputate scelerisque est, ac venenatis nisi facilisis id. Vivamus vel massa eget velit sagittis blandit. Nullam condimentum ipsum nec purus fringilla blandit. Nullam condimentum ipsum nec purus finibus, ac mattis mauris malesuada. Fusce dignissim diam ut ligula tincidunt euismod. Proin ut mauris malesuada, placerat nulla sed, faucibus augue. Donec eget risus tellus. Phasellus euismod dui et lacus mollis ultricies. Mauris fringilla mauris libero, id pretium quam consequat nec. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+        <?= htmlspecialchars($product['desc']) ?>
       </p>
       <p class="product-detail-allergy">
-        <strong>Allergy Information :</strong> Proin ut mauris malesuada, placerat nulla sed, faucibus augue.
+        <strong>Allergy Information:</strong> <?= htmlspecialchars($product['allergy']) ?>
       </p>
       <div class="product-detail-actions">
         <button class="product-detail-btn-cart">ADD TO CART</button>
@@ -72,42 +99,21 @@ $pageTitle = 'Product Detail – Hudders Hub';
     <h2 class="product-detail-section-heading">Similar Products</h2>
 
     <div class="product-detail-similar-grid">
-
-      <!-- Card 1 -->
+      <?php foreach ($similar as $simId => $sim): ?>
       <div class="product-detail-sim-card">
         <div class="product-detail-sim-img">
-          <img src="assets/css/image/Mitho✨ - Yourartsyhub Photography_preview_rev_1.png" alt="Product">
+          <a href="product_detail.php?id=<?= $simId ?>">
+            <img src="<?= htmlspecialchars($sim['image']) ?>" alt="<?= htmlspecialchars($sim['name']) ?>">
+          </a>
         </div>
         <div class="product-detail-sim-body">
-          <h3>Product name</h3>
-          <p class="product-detail-sim-price">Price:<strong>$200</strong></p>
-          <p class="product-detail-sim-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum odio in massa sollicitudin, eu molestie risus faucibus…</p>
-          <button class="product-detail-sim-cart-btn">🛒 ADD TO CART</button>
+          <h3><a href="product_detail.php?id=<?= $simId ?>"><?= htmlspecialchars($sim['name']) ?></a></h3>
+          <p class="product-detail-sim-price">Price: <strong>$<?= number_format($sim['price'], 2) ?></strong></p>
+          <p class="product-detail-sim-desc"><?= htmlspecialchars(substr($sim['desc'], 0, 120)) ?>…</p>
+          <a href="product_detail.php?id=<?= $simId ?>"><button class="product-detail-sim-cart-btn">🛒 ADD TO CART</button></a>
         </div>
       </div>
-
-      <!-- Card 2 -->
-      <div class="product-detail-sim-card">
-        <div class="product-detail-sim-img">
-          <img src="assets/css/image/Please provide the original Pinterest title you would like me to reformat__preview_rev_1.png" alt="Product">
-        </div>
-        <div class="product-detail-sim-body">
-          <p class="product-detail-sim-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum odio in massa sollicitudin, eu molestie risus faucibus…</p>
-          <button class="product-detail-sim-cart-btn">🛒 ADD TO CART</button>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="product-detail-sim-card">
-        <div class="product-detail-sim-img">
-          <img src="assets/css/image/___preview_rev_1.png" alt="Product">
-        </div>
-        <div class="product-detail-sim-body">
-          <p class="product-detail-sim-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum odio in massa sollicitudin, eu molestie risus faucibus…</p>
-          <button class="product-detail-sim-cart-btn">🛒 ADD TO CART</button>
-        </div>
-      </div>
-
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -124,10 +130,10 @@ $pageTitle = 'Product Detail – Hudders Hub';
           <h4 class="product-detail-reviewer">Rachana Aryal</h4>
           <div class="product-detail-review-stars">★★★</div>
         </div>
-        <span class="product-detail-review-date">Date of review</span>
+        <span class="product-detail-review-date">4 May 2026</span>
       </div>
       <p class="product-detail-review-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada nulla nec augue rhoncus, eget ullamcorper nulla ultricies. Fusce vulputate scelerisque est, ac venenatis nisi facilisis id. Vivamus vel massa eget velit sagittis blandit. Nullam condimentum ipsum nec purus finibus, ac mattis mauris malesuada. Fusce dignissim diam ut ligula tincidunt euismod. Proin ut mauris malesuada, placerat nulla sed, faucibus augue. Donec eget risus tellus. Phasellus euismod dui et lacus mollis ultricies.
+        Excellent quality <?= htmlspecialchars($product['name']) ?>! Very fresh and well-packaged. Arrived in perfect condition and tasted wonderful. Will definitely order again from Hudders Hub Market.
       </p>
     </div>
 
@@ -136,12 +142,12 @@ $pageTitle = 'Product Detail – Hudders Hub';
       <div class="product-detail-review-header">
         <div>
           <h4 class="product-detail-reviewer">Smriti Shrestha</h4>
-          <div class="product-detail-review-stars">★★★</div>
+          <div class="product-detail-review-stars">★★★★</div>
         </div>
-        <span class="product-detail-review-date">Date of review</span>
+        <span class="product-detail-review-date">2 May 2026</span>
       </div>
       <p class="product-detail-review-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada nulla nec augue rhoncus, eget ullamcorper nulla ultricies. Fusce vulputate scelerisque est, ac venenatis nisi facilisis id. Vivamus vel massa eget velit sagittis blandit. Nullam condimentum ipsum nec purus finibus, ac mattis mauris malesuada. Fusce dignissim diam ut ligula tincidunt euismod. Proin ut mauris malesuada, placerat nulla sed. Donec eget risus tellus. Phasellus euismod dui et lacus mollis ultricies.
+        Great <?= htmlspecialchars($product['name']) ?> at a fair price. The quality is consistently good every time I order. Love supporting local traders through this platform. Highly recommended!
       </p>
     </div>
 
@@ -149,3 +155,4 @@ $pageTitle = 'Product Detail – Hudders Hub';
 </section>
 
 <?php include 'include/footer.php'; ?>
+

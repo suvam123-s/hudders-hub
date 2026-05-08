@@ -18,7 +18,7 @@
         <li><a href="index.php">Home</a></li>
         <li><a href="cart.php">Your Cart</a></li>
         <li><a href="#">Career</a></li>
-        <li><a href="#">Content</a></li>
+        <li><a href="contactus.php">Contact Us</a></li>
       </ul>
     </div>
 
@@ -39,7 +39,7 @@
         <li><a href="#">Google Map</a></li>
         <li><a href="#">FAQs</a></li>
         <li><a href="#">Teams</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="contactus.php">Contact Us</a></li>
       </ul>
     </div>
 

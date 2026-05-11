@@ -9,6 +9,7 @@ $catalogue = [
     4 => ['name' => 'Steak',     'price' => 15.99, 'image' => 'assets/css/image/steak.png'],
 ];
 
+<<<<<<< HEAD
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     $_SESSION['cart'] = [
         [
@@ -34,6 +35,42 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         ],
     ];
 }
+=======
+// ── Handle POST actions ───────────────────────────────────────
+$action  = $_POST['action']  ?? '';
+$item_id = (int)($_POST['item_id'] ?? -1);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if ($action === 'update_qty' && isset($_SESSION['cart'][$item_id])) {
+        $qty = max(1, min(99, (int)$_POST['qty']));
+        $_SESSION['cart'][$item_id]['qty'] = $qty;
+
+    } elseif ($action === 'remove' && isset($_SESSION['cart'][$item_id])) {
+        array_splice($_SESSION['cart'], $item_id, 1);
+
+    } elseif ($action === 'apply_promo') {
+        $code = strtoupper(trim(htmlspecialchars($_POST['promo'] ?? '', ENT_QUOTES, 'UTF-8')));
+        $valid = ['SAVE20' => 20, 'HUB10' => 10];
+        if (array_key_exists($code, $valid)) {
+            $_SESSION['promo_code']     = $code;
+            $_SESSION['promo_discount'] = $valid[$code];
+            unset($_SESSION['promo_error']);
+        } else {
+            $_SESSION['promo_code']     = null;
+            $_SESSION['promo_discount'] = 0;
+            $_SESSION['promo_error']    = 'Invalid promo code.';
+        }
+    }
+
+    header('Location: cart.php');
+    exit;
+}
+
+// ── Cart is populated via shop/product pages ──
+// No demo data — items are added via AJAX from shop.php and product_detail.php
+
+>>>>>>> 9811808 (FUNCTION IMPLEMENTED)
 
 // ── Handle POST actions ───────────────────────────────────────
 $action  = $_POST['action']  ?? '';
@@ -145,10 +182,12 @@ include 'include/header.php';
                 <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>
               </div>
               <div class="cart-item-meta">
+                <?php if (!empty($item['meta'])): ?>
                 <?php foreach ($item['meta'] as $k => $v): ?>
                   <?= htmlspecialchars($k, ENT_QUOTES, 'UTF-8') ?>:
                   <span><?= htmlspecialchars($v, ENT_QUOTES, 'UTF-8') ?></span>&nbsp;
                 <?php endforeach; ?>
+                <?php endif; ?>
               </div>
               <div class="cart-item-price">
                 $<?= number_format($item['price'] * $item['qty'], 2) ?>

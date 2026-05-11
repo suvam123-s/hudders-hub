@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// ── Product Data (acts as a simple backend) ──
+// ── Product Data ──
 $products = [
     1 => [
         'name'    => 'Broccoli',
@@ -41,7 +41,6 @@ $products = [
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if (!isset($products[$id])) {
-    // Redirect to homepage if product not found
     header('Location: index.php');
     exit;
 }
@@ -49,10 +48,8 @@ if (!isset($products[$id])) {
 $product = $products[$id];
 $pageTitle = htmlspecialchars($product['name']) . ' – Hudders Hub';
 
-// Build star display
 $stars = str_repeat('★', $product['rating']) . str_repeat('☆', 5 - $product['rating']);
 
-// Get similar products (all except current)
 $similar = array_filter($products, function($key) use ($id) {
     return $key !== $id;
 }, ARRAY_FILTER_USE_KEY);
@@ -62,7 +59,6 @@ $similar = array_filter($products, function($key) use ($id) {
 <style>
   body { background: var(--beige-light); }
 </style>
-
 
 <!-- ====== MAIN PRODUCT SECTION ====== -->
 <section class="product-detail-main">
@@ -85,7 +81,12 @@ $similar = array_filter($products, function($key) use ($id) {
         <strong>Allergy Information:</strong> <?= htmlspecialchars($product['allergy']) ?>
       </p>
       <div class="product-detail-actions">
-        <button class="product-detail-btn-cart">ADD TO CART</button>
+        <!-- FIX: wrapped in a form that POSTs to cart.php -->
+        <form method="POST" action="cart.php">
+          <input type="hidden" name="action" value="add">
+          <input type="hidden" name="product_id" value="<?= $id ?>">
+          <button type="submit" class="product-detail-btn-cart">ADD TO CART</button>
+        </form>
         <button class="product-detail-btn-wishlist">ADD TO WISH LIST</button>
       </div>
     </div>
@@ -110,7 +111,12 @@ $similar = array_filter($products, function($key) use ($id) {
           <h3><a href="product_detail.php?id=<?= $simId ?>"><?= htmlspecialchars($sim['name']) ?></a></h3>
           <p class="product-detail-sim-price">Price: <strong>$<?= number_format($sim['price'], 2) ?></strong></p>
           <p class="product-detail-sim-desc"><?= htmlspecialchars(substr($sim['desc'], 0, 120)) ?>…</p>
-          <a href="product_detail.php?id=<?= $simId ?>"><button class="product-detail-sim-cart-btn">🛒 ADD TO CART</button></a>
+          <!-- FIX: now a real form instead of a link wrapping a button -->
+          <form method="POST" action="cart.php">
+            <input type="hidden" name="action" value="add">
+            <input type="hidden" name="product_id" value="<?= $simId ?>">
+            <button type="submit" class="product-detail-sim-cart-btn">🛒 ADD TO CART</button>
+          </form>
         </div>
       </div>
       <?php endforeach; ?>
@@ -123,7 +129,6 @@ $similar = array_filter($products, function($key) use ($id) {
   <div class="product-detail-reviews-inner">
     <h2 class="product-detail-section-heading">Product Reviews</h2>
 
-    <!-- Review 1 -->
     <div class="product-detail-review-card">
       <div class="product-detail-review-header">
         <div>
@@ -137,7 +142,6 @@ $similar = array_filter($products, function($key) use ($id) {
       </p>
     </div>
 
-    <!-- Review 2 -->
     <div class="product-detail-review-card">
       <div class="product-detail-review-header">
         <div>

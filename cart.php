@@ -1,44 +1,15 @@
 <?php
-
 session_start();
 
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
-}
+// ── Product catalogue ─────────────────────────────────────────
+$catalogue = [
+    1 => ['name' => 'Broccoli',  'price' => 2.50,  'image' => 'assets/css/image/broccoli.png'],
+    2 => ['name' => 'Salmon',    'price' => 12.99, 'image' => 'assets/css/image/salmon.png'],
+    3 => ['name' => 'Sourdough', 'price' => 4.50,  'image' => 'assets/css/image/sourdough.png'],
+    4 => ['name' => 'Steak',     'price' => 15.99, 'image' => 'assets/css/image/steak.png'],
+];
 
-// ── Handle POST actions ───────────────────────────────────────
-$action  = $_POST['action']  ?? '';
-$item_id = (int)($_POST['item_id'] ?? -1);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if ($action === 'update_qty' && isset($_SESSION['cart'][$item_id])) {
-        $qty = max(1, min(99, (int)$_POST['qty']));
-        $_SESSION['cart'][$item_id]['qty'] = $qty;
-
-    } elseif ($action === 'remove' && isset($_SESSION['cart'][$item_id])) {
-        array_splice($_SESSION['cart'], $item_id, 1);
-
-    } elseif ($action === 'apply_promo') {
-        $code = strtoupper(trim(htmlspecialchars($_POST['promo'] ?? '', ENT_QUOTES, 'UTF-8')));
-        $valid = ['SAVE20' => 20, 'HUB10' => 10];
-        if (array_key_exists($code, $valid)) {
-            $_SESSION['promo_code']     = $code;
-            $_SESSION['promo_discount'] = $valid[$code];
-            unset($_SESSION['promo_error']);
-        } else {
-            $_SESSION['promo_code']     = null;
-            $_SESSION['promo_discount'] = 0;
-            $_SESSION['promo_error']    = 'Invalid promo code.';
-        }
-    }
-
-    header('Location: cart.php');
-    exit;
-}
-
-// ── Pre-fill demo cart if empty ───────────────────────────────
-if (empty($_SESSION['cart'])) {
+if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     $_SESSION['cart'] = [
         [
             'name'  => 'Pork',
@@ -64,8 +35,63 @@ if (empty($_SESSION['cart'])) {
     ];
 }
 
+// ── Handle POST actions ───────────────────────────────────────
+$action  = $_POST['action']  ?? '';
+$item_id = (int)($_POST['item_id'] ?? -1);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if ($action === 'add') {
+        $pid = (int)($_POST['product_id'] ?? 0);
+        if (isset($catalogue[$pid])) {
+            $p = $catalogue[$pid];
+            $found = false;
+            foreach ($_SESSION['cart'] as &$item) {
+                if ($item['name'] === $p['name']) {
+                    $item['qty']++;
+                    $found = true;
+                    break;
+                }
+            }
+            unset($item);
+            if (!$found) {
+                $_SESSION['cart'][] = [
+                    'name'  => $p['name'],
+                    'meta'  => [],
+                    'price' => $p['price'],
+                    'qty'   => 1,
+                    'img'   => $p['image'],
+                ];
+            }
+        }
+
+    } elseif ($action === 'update_qty' && isset($_SESSION['cart'][$item_id])) {
+        $qty = max(1, min(99, (int)$_POST['qty']));
+        $_SESSION['cart'][$item_id]['qty'] = $qty;
+
+    } elseif ($action === 'remove' && isset($_SESSION['cart'][$item_id])) {
+        array_splice($_SESSION['cart'], $item_id, 1);
+
+    } elseif ($action === 'apply_promo') {
+        $code = strtoupper(trim(htmlspecialchars($_POST['promo'] ?? '', ENT_QUOTES, 'UTF-8')));
+        $valid = ['SAVE20' => 20, 'HUB10' => 10];
+        if (array_key_exists($code, $valid)) {
+            $_SESSION['promo_code']     = $code;
+            $_SESSION['promo_discount'] = $valid[$code];
+            unset($_SESSION['promo_error']);
+        } else {
+            $_SESSION['promo_code']     = null;
+            $_SESSION['promo_discount'] = 0;
+            $_SESSION['promo_error']    = 'Invalid promo code.';
+        }
+    }
+
+    header('Location: cart.php');
+    exit;
+}
+
 // ── Totals ────────────────────────────────────────────────────
-$subtotal     = 0;
+$subtotal = 0;
 foreach ($_SESSION['cart'] as $item) {
     $subtotal += $item['price'] * $item['qty'];
 }
@@ -125,7 +151,7 @@ include 'include/header.php';
                 <?php endforeach; ?>
               </div>
               <div class="cart-item-price">
-                $<?= number_format($item['price'] * $item['qty']) ?>
+                $<?= number_format($item['price'] * $item['qty'], 2) ?>
               </div>
             </div>
 
@@ -172,13 +198,13 @@ include 'include/header.php';
 
       <div class="summary-row">
         <span>Subtotal</span>
-        <span>$<?= number_format($subtotal) ?></span>
+        <span>$<?= number_format($subtotal, 2) ?></span>
       </div>
 
       <?php if ($discount_pct > 0): ?>
       <div class="summary-row discount">
         <span>Discount (-<?= $discount_pct ?>%)</span>
-        <span class="amount">-$<?= number_format($discount_amt) ?></span>
+        <span class="amount">-$<?= number_format($discount_amt, 2) ?></span>
       </div>
       <?php endif; ?>
 
@@ -186,7 +212,7 @@ include 'include/header.php';
 
       <div class="summary-row total">
         <span>Total</span>
-        <span>$<?= number_format($total) ?></span>
+        <span>$<?= number_format($total, 2) ?></span>
       </div>
 
       <!-- Promo code -->

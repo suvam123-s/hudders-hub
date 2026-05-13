@@ -27,7 +27,7 @@
       <h4>Privacy</h4>
       <ul>
         <li><a href="terms.php">Terms and Condition</a></li>
-        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="privacy_policy.php">Privacy Policy</a></li>
       </ul>
     </div>
 

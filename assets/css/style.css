@@ -2479,10 +2479,10 @@ a.checkout-btn:hover, .checkout-btn:hover { background:#2C3A1E; transform:transl
     border-color: #e74c3c !important;
 }
 
-/* Active category in sidebar */
+
 .active-cat { background: #f5f2e8; }
 
-/* Shop empty state */
+
 .shop-empty {
     grid-column: 1 / -1;
     text-align: center;
@@ -2491,9 +2491,7 @@ a.checkout-btn:hover, .checkout-btn:hover { background:#2C3A1E; transform:transl
 }
 .shop-empty p { margin-bottom: 8px; font-size: 0.95rem; }
 
-/* ============================================================
-   TOAST NOTIFICATION
-   ============================================================ */
+
 .shop-toast {
     position: fixed;
     bottom: 30px;
@@ -2525,9 +2523,294 @@ a.checkout-btn:hover, .checkout-btn:hover { background:#2C3A1E; transform:transl
 .shop-toast.info { background: #2c3e50; }
 .shop-toast i { font-size: 1.1rem; }
 
-/* ── Shop card body link styling ── */
+
 .shop-card-body h4 a {
     color: #1C1C1C;
     transition: color 0.2s;
 }
 .shop-card-body h4 a:hover { color: #5C6B3A; }
+
+
+.inv-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 50px 20px 80px;
+    background: #EAE0D5;          
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+
+.inv-title {
+    font-size: 2.8rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #1C1C1C;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+.inv-card {
+    width: 100%;
+    max-width: 920px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 45px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.inv-addresses {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    margin-bottom: 45px;
+    flex-wrap: wrap;
+}
+
+.inv-address-block {
+    flex: 1;
+    min-width: 240px;
+}
+
+
+.inv-address-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #587052;             
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.inv-address-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1C1C1C;
+    margin-bottom: 8px;
+}
+
+.inv-address-line {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #555;
+    margin: 0;
+}
+
+.inv-address-email {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #587052;
+    margin-top: 6px;
+}
+
+
+.inv-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 45px;
+}
+
+
+.inv-table thead {
+    background: #587052;
+}
+
+.inv-th {
+    color: #FFFFFF;
+    padding: 16px 18px;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+.inv-th-qty,
+.inv-th-price,
+.inv-th-total {
+    text-align: center;
+}
+
+
+.inv-row {
+    border-bottom: 1px solid #EFEFEF;
+}
+
+.inv-td {
+    padding: 22px 18px;
+    vertical-align: top;
+    font-size: 0.95rem;
+    color: #1C1C1C;
+}
+
+.inv-td-qty,
+.inv-td-price,
+.inv-td-total {
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+.inv-item-name {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+
+.inv-item-sub {
+    display: block;
+    font-size: 0.82rem;
+    color: #888;
+}
+
+
+.inv-td-total strong {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1C1C1C;
+}
+
+.inv-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.inv-notes {
+    flex: 1;
+    min-width: 240px;
+}
+
+.inv-notes-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #587052;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.inv-notes-text {
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: #555;
+}
+
+
+.inv-totals {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.inv-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #EFEFEF;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+
+.inv-discount {
+    color: #587052;
+}
+
+
+.inv-amount-due {
+    border-bottom: none;
+    margin-top: 6px;
+    padding-top: 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1C1C1C;
+}
+
+.inv-due-amount {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #1C1C1C;
+}
+
+.inv-actions {
+    margin-top: 35px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.inv-btn-back,
+.inv-btn-print {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    text-decoration: none;
+    background: #587052;
+    color: #FFFFFF;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.inv-btn-back:hover,
+.inv-btn-print:hover {
+    background: #40563d;
+}
+
+
+@media (max-width: 768px) {
+    .inv-title {
+        font-size: 2rem;
+    }
+
+    .inv-card {
+        padding: 25px 20px;
+    }
+
+    .inv-addresses {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .inv-address-name {
+        font-size: 1.2rem;
+    }
+
+    .inv-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .inv-footer {
+        flex-direction: column;
+    }
+
+    .inv-totals {
+        width: 100%;
+    }
+
+    .inv-due-amount {
+        font-size: 1.5rem;
+    }
+}
+
+
+@media print {
+    .inv-actions { display: none; }
+    .site-header, .site-footer { display: none; }
+    .inv-page { background: #fff; padding: 0; }
+    .inv-card { box-shadow: none; }
+}

@@ -55,6 +55,8 @@ if ($row && password_verify($password, $row['PASSWORD'])) {
     // Redirect based on role
     if ($row['USER_ROLE'] === 'ADMIN') {
         header("Location: admin_dashboard.php");
+    } elseif ($row['USER_ROLE'] === 'TRADER') {
+        header("Location: Trader/Traderdashboard.php");
     } else {
         header("Location: index.php");
     }

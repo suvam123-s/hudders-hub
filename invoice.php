@@ -1,141 +1,251 @@
 <?php
 session_start();
 
+// ── Product catalogue ─────────────────────────────────────────
+$catalogue = [
+  1 => ['name' => 'Broccoli', 'price' => 2.50, 'image' => 'assets/css/image/broccoli.png'],
+  2 => ['name' => 'Salmon', 'price' => 12.99, 'image' => 'assets/css/image/salmon.png'],
+  3 => ['name' => 'Sourdough', 'price' => 4.50, 'image' => 'assets/css/image/sourdough.png'],
+  4 => ['name' => 'Steak', 'price' => 15.99, 'image' => 'assets/css/image/steak.png'],
+];
 
-if (empty($_SESSION['invoice_ref'])) {
-    header('Location: index.php');
-    exit();
+// ── Handle POST actions ───────────────────────────────────────
+$action = $_POST['action'] ?? '';
+$item_id = (int) ($_POST['item_id'] ?? -1);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+  if ($action === 'update_qty' && isset($_SESSION['cart'][$item_id])) {
+    $qty = max(1, min(99, (int) $_POST['qty']));
+    $_SESSION['cart'][$item_id]['qty'] = $qty;
+
+  } elseif ($action === 'remove' && isset($_SESSION['cart'][$item_id])) {
+    array_splice($_SESSION['cart'], $item_id, 1);
+
+  } elseif ($action === 'apply_promo') {
+    $code = strtoupper(trim(htmlspecialchars($_POST['promo'] ?? '', ENT_QUOTES, 'UTF-8')));
+    $valid = ['SAVE20' => 20, 'HUB10' => 10];
+    if (array_key_exists($code, $valid)) {
+      $_SESSION['promo_code'] = $code;
+      $_SESSION['promo_discount'] = $valid[$code];
+      unset($_SESSION['promo_error']);
+    } else {
+      $_SESSION['promo_code'] = null;
+      $_SESSION['promo_discount'] = 0;
+      $_SESSION['promo_error'] = 'Invalid promo code.';
+    }
+  }
+
+  header('Location: cart.php');
+  exit;
 }
 
-$ref          = $_SESSION['invoice_ref'];
-$items        = $_SESSION['invoice_items']      ?? [];
-$subtotal     = (float)($_SESSION['invoice_subtotal']  ?? 0);
-$discount_pct = (int)($_SESSION['invoice_discount_pct'] ?? 0);
-$discount_amt = (float)($_SESSION['invoice_discount_amt'] ?? 0);
-$tax_pct      = (float)($_SESSION['invoice_tax_pct']   ?? 8.5);
-$tax_amt      = (float)($_SESSION['invoice_tax_amt']   ?? 0);
-$total        = (float)($_SESSION['invoice_total']     ?? 0);
-$bill_name    = $_SESSION['invoice_bill_name']  ?? '';
-$bill_address = $_SESSION['invoice_bill_address'] ?? '';
-$bill_email   = $_SESSION['invoice_bill_email'] ?? '';
-$ship_name    = $_SESSION['invoice_ship_name']  ?? $bill_name;
-$ship_address = $_SESSION['invoice_ship_address'] ?? $bill_address;
-$invoice_date = $_SESSION['invoice_date']       ?? date('F j, Y');
+// ── Cart is populated via shop/product pages ──
+// No demo data — items are added via AJAX from shop.php and product_detail.php
 
-$pageTitle = 'Invoice #' . htmlspecialchars($ref) . ' – Hudders Hub';
+
+// ── Handle POST actions ───────────────────────────────────────
+$action = $_POST['action'] ?? '';
+$item_id = (int) ($_POST['item_id'] ?? -1);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+  if ($action === 'add') {
+    $pid = (int) ($_POST['product_id'] ?? 0);
+    if (isset($catalogue[$pid])) {
+      $p = $catalogue[$pid];
+      $found = false;
+      foreach ($_SESSION['cart'] as &$item) {
+        if ($item['name'] === $p['name']) {
+          $item['qty']++;
+          $found = true;
+          break;
+        }
+      }
+      unset($item);
+      if (!$found) {
+        $_SESSION['cart'][] = [
+          'name' => $p['name'],
+          'meta' => [],
+          'price' => $p['price'],
+          'qty' => 1,
+          'img' => $p['image'],
+        ];
+      }
+    }
+
+  } elseif ($action === 'update_qty' && isset($_SESSION['cart'][$item_id])) {
+    $qty = max(1, min(99, (int) $_POST['qty']));
+    $_SESSION['cart'][$item_id]['qty'] = $qty;
+
+  } elseif ($action === 'remove' && isset($_SESSION['cart'][$item_id])) {
+    array_splice($_SESSION['cart'], $item_id, 1);
+
+  } elseif ($action === 'apply_promo') {
+    $code = strtoupper(trim(htmlspecialchars($_POST['promo'] ?? '', ENT_QUOTES, 'UTF-8')));
+    $valid = ['SAVE20' => 20, 'HUB10' => 10];
+    if (array_key_exists($code, $valid)) {
+      $_SESSION['promo_code'] = $code;
+      $_SESSION['promo_discount'] = $valid[$code];
+      unset($_SESSION['promo_error']);
+    } else {
+      $_SESSION['promo_code'] = null;
+      $_SESSION['promo_discount'] = 0;
+      $_SESSION['promo_error'] = 'Invalid promo code.';
+    }
+  }
+
+  header('Location: cart.php');
+  exit;
+}
+
+// ── Totals ────────────────────────────────────────────────────
+$subtotal = 0;
+foreach ($_SESSION['cart'] as $item) {
+  $subtotal += $item['price'] * $item['qty'];
+}
+$discount_pct = (int) ($_SESSION['promo_discount'] ?? 0);
+$discount_amt = (int) round($subtotal * $discount_pct / 100);
+$total = $subtotal - $discount_amt;
+
+$pageTitle = 'Your Cart – Hudders Hub';
 include 'include/header.php';
 ?>
-<link rel="stylesheet" href="assets/css/invoice.css">
 
-<main class="inv-page">
+<link rel="stylesheet" href="assets/css/cart.css">
 
-  <h1 class="inv-title">INVOICE</h1>
+<main class="cart-page">
+  <div class="cart-inner">
 
-  <div class="inv-card">
+    <!-- ══ LEFT: Items + Collection Slot ══════════════════ -->
+    <div>
 
-    
-    <div class="inv-addresses">
+      <div class="cart-items-box">
+        <?php if (empty($_SESSION['cart'])): ?>
+          <div class="cart-empty">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Your cart is empty.</p>
+            <a href="shop.php">Continue Shopping</a>
+          </div>
 
-      <div class="inv-address-block">
-        <p class="inv-address-label">BILL TO</p>
-        <p class="inv-address-name"><?= htmlspecialchars($bill_name) ?></p>
-        <?php foreach (explode("\n", $bill_address) as $line): ?>
-          <p class="inv-address-line"><?= htmlspecialchars(trim($line)) ?></p>
-        <?php endforeach; ?>
-        <?php if ($bill_email): ?>
-          <p class="inv-address-email"><?= htmlspecialchars($bill_email) ?></p>
+        <?php else: ?>
+          <?php foreach ($_SESSION['cart'] as $i => $item): ?>
+            <div class="cart-item">
+
+              <!-- Delete -->
+              <form method="POST" action="cart.php" style="position:absolute;top:14px;right:14px;">
+                <input type="hidden" name="action" value="remove">
+                <input type="hidden" name="item_id" value="<?= $i ?>">
+                <button type="submit" class="cart-item-delete" title="Remove">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+
+              <!-- Image -->
+              <img class="cart-item-img" src="<?= htmlspecialchars($item['img'], ENT_QUOTES, 'UTF-8') ?>"
+                alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>"
+                onerror="this.src='assets/css/image/market-hero.png'">
+
+              <!-- Info -->
+              <div class="cart-item-info">
+                <div class="cart-item-name">
+                  <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>
+                </div>
+                <div class="cart-item-meta">
+                  <?php if (!empty($item['meta'])): ?>
+                    <?php foreach ($item['meta'] as $k => $v): ?>
+                      <?= htmlspecialchars($k, ENT_QUOTES, 'UTF-8') ?>:
+                      <span><?= htmlspecialchars($v, ENT_QUOTES, 'UTF-8') ?></span>&nbsp;
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </div>
+                <div class="cart-item-price">
+                  $<?= number_format($item['price'] * $item['qty'], 2) ?>
+                </div>
+              </div>
+
+              <!-- Qty -->
+              <form method="POST" action="cart.php" class="qty-control">
+                <input type="hidden" name="action" value="update_qty">
+                <input type="hidden" name="item_id" value="<?= $i ?>">
+                <button type="submit" name="qty" value="<?= max(1, $item['qty'] - 1) ?>" class="qty-btn">&#8722;</button>
+                <span class="qty-value"><?= (int) $item['qty'] ?></span>
+                <button type="submit" name="qty" value="<?= min(99, $item['qty'] + 1) ?>" class="qty-btn">&#43;</button>
+              </form>
+
+            </div>
+          <?php endforeach; ?>
         <?php endif; ?>
+      </div><!-- /.cart-items-box -->
+
+      <!-- Collection Slot -->
+      <div class="collection-slot">
+        <span class="collection-slot-label">Collection Slot</span>
+        <select class="slot-select" name="slot_day">
+          <option>Day</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+        </select>
+        <select class="slot-select" name="slot_time">
+          <option>Time</option>
+          <option>10:00 – 13:00</option>
+          <option>13:00 – 16:00</option>
+          <option>16:00 – 19:00</option>
+        </select>
       </div>
 
-      <div class="inv-address-block">
-        <p class="inv-address-label">SHIP TO</p>
-        <p class="inv-address-name"><?= htmlspecialchars($ship_name) ?></p>
-        <?php foreach (explode("\n", $ship_address) as $line): ?>
-          <p class="inv-address-line"><?= htmlspecialchars(trim($line)) ?></p>
-        <?php endforeach; ?>
+    </div><!-- /left col -->
+
+    <!-- ══ RIGHT: Order Summary ═══════════════════════════ -->
+    <aside class="order-summary">
+      <h2>Order Summary</h2>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>$<?= number_format($subtotal, 2) ?></span>
       </div>
 
-    </div>
+      <?php if ($discount_pct > 0): ?>
+        <div class="summary-row discount">
+          <span>Discount (-<?= $discount_pct ?>%)</span>
+          <span class="amount">-$<?= number_format($discount_amt, 2) ?></span>
+        </div>
+      <?php endif; ?>
 
-    
-    <table class="inv-table">
-      <thead>
-        <tr>
-          <th class="inv-th inv-th-desc">Description</th>
-          <th class="inv-th inv-th-qty">Qty</th>
-          <th class="inv-th inv-th-price">Unit Price</th>
-          <th class="inv-th inv-th-total">Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($items as $item):
-          $line_total = (float)$item['price'] * (int)$item['qty'];
-        ?>
-        <tr class="inv-row">
-          <td class="inv-td inv-td-desc">
-            <span class="inv-item-name"><?= htmlspecialchars($item['name']) ?></span>
-            <?php if (!empty($item['description'])): ?>
-              <span class="inv-item-sub"><?= htmlspecialchars($item['description']) ?></span>
-            <?php endif; ?>
-          </td>
-          <td class="inv-td inv-td-qty"><?= (int)$item['qty'] ?></td>
-          <td class="inv-td inv-td-price">$<?= number_format((float)$item['price'], 2) ?></td>
-          <td class="inv-td inv-td-total"><strong>$<?= number_format($line_total, 2) ?></strong></td>
-        </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+      <hr class="summary-divider">
 
-    
-    <div class="inv-footer">
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>$<?= number_format($total, 2) ?></span>
+      </div>
 
-      <div class="inv-notes">
-        <p class="inv-notes-label">NOTES</p>
-        <p class="inv-notes-text">
-          Thank you for your shopping at Hudders Hub.<br>
-          Your artisan goods have been carefully packed<br>
-          in compostable materials. We hope they bring<br>
-          nature's serenity into your home.
+      <!-- Promo code -->
+      <form method="POST" action="cart.php" class="promo-row">
+        <input type="hidden" name="action" value="apply_promo">
+        <input type="text" name="promo" class="promo-input" placeholder="Add promo code"
+          value="<?= htmlspecialchars($_SESSION['promo_code'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+        <button type="submit" class="promo-btn">Apply</button>
+      </form>
+
+      <?php if (!empty($_SESSION['promo_error'])): ?>
+        <p class="promo-msg error">
+          <?= htmlspecialchars($_SESSION['promo_error'], ENT_QUOTES, 'UTF-8') ?>
         </p>
-      </div>
+        <?php unset($_SESSION['promo_error']); ?>
+      <?php elseif (!empty($_SESSION['promo_code'])): ?>
+        <p class="promo-msg success">
+          ✓ "<?= htmlspecialchars($_SESSION['promo_code'], ENT_QUOTES, 'UTF-8') ?>" applied!
+        </p>
+      <?php endif; ?>
 
-      <div class="inv-totals">
-        <div class="inv-total-row">
-          <span>Subtotal</span>
-          <span>$<?= number_format($subtotal, 2) ?></span>
-        </div>
-
-        <?php if ($discount_amt > 0): ?>
-        <div class="inv-total-row inv-discount">
-          <span>Eco-Discount (<?= $discount_pct ?>%)</span>
-          <span>-$<?= number_format($discount_amt, 2) ?></span>
-        </div>
-        <?php endif; ?>
-
-        <div class="inv-total-row">
-          <span>Tax (<?= $tax_pct ?>%)</span>
-          <span>$<?= number_format($tax_amt, 2) ?></span>
-        </div>
-
-        <div class="inv-total-row inv-amount-due">
-          <span>Amount Due</span>
-          <span class="inv-due-amount">$<?= number_format($total, 2) ?></span>
-        </div>
-      </div>
-
-    </div>
+      <!-- Checkout -->
+      <a href="checkout.php" class="checkout-btn">
+        Proceed&nbsp;to&nbsp;Checkout &nbsp;<i class="fas fa-arrow-right"></i>
+      </a>
+    </aside>
 
   </div>
-  
-  <div class="inv-actions">
-    <a href="order_confirmed.php" class="inv-btn-back">
-      <i class="fas fa-arrow-left"></i> Back to Order
-    </a>
-    <button class="inv-btn-print" onclick="window.print()">
-      <i class="fas fa-print"></i> Print Invoice
-    </button>
-  </div>
-
 </main>
 
 <?php include 'include/footer.php'; ?>

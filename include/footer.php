@@ -8,7 +8,8 @@
         <img src="assets/css/image/logo.png" alt="Hudders Hub Logo">
         <h3>Hudders Hub</h3>
       </div>
-      <p>Bringing nature's finest directly to your doorstep. Fresh, organic, and locally sourced produce for a healthier lifestyle.</p>
+      <p>Bringing nature's finest directly to your doorstep. Fresh, organic, and locally sourced produce for a healthier
+        lifestyle.</p>
     </div>
 
     <!-- HuddersHub -->
@@ -18,7 +19,6 @@
         <li><a href="index.php">Home</a></li>
         <li><a href="cart.php">Your Cart</a></li>
         <li><a href="#">Career</a></li>
-        <li><a href="contactus.php">Contact Us</a></li>
       </ul>
     </div>
 
@@ -27,7 +27,7 @@
       <h4>Privacy</h4>
       <ul>
         <li><a href="terms.php">Terms and Condition</a></li>
-        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="privacy_policy.php">Privacy Policy</a></li>
       </ul>
     </div>
 
@@ -60,4 +60,5 @@
 </footer>
 
 </body>
+
 </html>

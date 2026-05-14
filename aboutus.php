@@ -186,8 +186,7 @@ include 'include/header.php';
             </p>
             <p>
                 Inspired by the vibrant community spirit of Huddersfield,
-                our market connects people with fresh products, handmade goods,
-                fashion, and lifestyle essentials.
+                our market connects people with fresh products.
             </p>
             <p>
                 We believe shopping should feel warm, enjoyable, and meaningful.

@@ -21,11 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $first_name = $name_parts[0] ?: '';
     $last_name = $name_parts[1] ?? '';
 
-    // If DOB is provided, format it.
-    // Oracle expects TO_DATE(:dob, 'YYYY-MM-DD')
+    
     
     // Update Query
-    // We are skipping the profile image since there's no column for it in the schema.
     $sql = "UPDATE USER_ACCOUNT SET 
             first_name = :first_name, 
             last_name = :last_name, 

@@ -39,6 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'pay')
     $_SESSION['order_time']  = $time;
     $_SESSION['order_items'] = $_SESSION['cart'];
 
+    // Store for invoice page
+    $_SESSION['invoice_ref']          = $order_ref;
+    $_SESSION['invoice_items']         = $_SESSION['cart'];
+    $_SESSION['invoice_subtotal']      = $subtotal;
+    $_SESSION['invoice_discount_pct']  = $discount_pct;
+    $_SESSION['invoice_discount_amt']  = $discount_amt;
+    $_SESSION['invoice_tax_pct']       = 0;
+    $_SESSION['invoice_tax_amt']       = 0;
+    $_SESSION['invoice_total']         = $total;
+    $_SESSION['invoice_bill_name']     = $_SESSION['user_name'] ?? '';
+    $_SESSION['invoice_bill_address']  = '';
+    $_SESSION['invoice_bill_email']    = $_SESSION['user_email'] ?? '';
+    $_SESSION['invoice_ship_name']     = $_SESSION['user_name'] ?? '';
+    $_SESSION['invoice_ship_address']  = '';
+    $_SESSION['invoice_date']          = date('F j, Y');
+
     // Clear cart
     $_SESSION['cart'] = [];
     $_SESSION['promo_code'] = null;

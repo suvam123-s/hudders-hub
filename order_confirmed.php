@@ -93,6 +93,7 @@ include 'include/header.php';
     <!-- Actions -->
     <div class="oc-actions">
       <a href="shop.php" class="oc-btn-shop"><i class="fas fa-store"></i> Continue Shopping</a>
+      <a href="invoice.php" class="oc-btn-home"><i class="fas fa-file-invoice"></i> View Invoice</a>
       <a href="index.php" class="oc-btn-home"><i class="fas fa-home"></i> Back to Home</a>
     </div>
 

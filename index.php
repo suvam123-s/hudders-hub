@@ -39,38 +39,83 @@ include 'include/header.php';
 <!-- OUR TRADERS -->
 <section class="traders-section">
   <div class="container">
-    <h2>OUR TRADERS</h2>
-    <div class="section-divider"></div>
+    <div class="traders-section-header">
+      <h2>OUR TRADERS</h2>
+    </div>
   </div>
-  <div class="traders-grid">
-    <div class="trader-card">
-      <div class="trader-img"><img src="assets/css/image/greengrocer.jpg" alt="Greengrocer"></div>
-      <div class="trader-info"><span class="trader-name">Greens & Roots</span>
-        <p>Fresh seasonal fruit and vegetables direct from local farms.</p>
+  <div class="traders-grid-custom">
+    <div class="trader-card-custom">
+      <div class="trader-custom-bg"></div>
+      <div class="trader-custom-img">
+        <img src="assets/css/image/greengrocer.jpg" alt="Greens & Roots">
+      </div>
+      <div class="trader-custom-content">
+        <div class="trader-custom-badge">VEGETABLES</div>
+        <div class="trader-custom-text">
+          <strong>Greens & Roots</strong><br>
+          Fresh seasonal fruit and vegetables direct from local farms. Ensuring the highest quality produce for your family.
+        </div>
+        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
-    <div class="trader-card">
-      <div class="trader-img"><img src="assets/css/image/fishmonger.jpeg" alt="Fishmonger"></div>
-      <div class="trader-info"><span class="trader-name">The Harbour Fish Co.</span>
-        <p>Fresh catch delivered daily from the coast.</p>
+    
+    <div class="trader-card-custom">
+      <div class="trader-custom-bg"></div>
+      <div class="trader-custom-img">
+        <img src="assets/css/image/fishmonger.jpeg" alt="The Harbour Fish Co.">
+      </div>
+      <div class="trader-custom-content">
+        <div class="trader-custom-badge">SEAFOOD</div>
+        <div class="trader-custom-text">
+          <strong>The Harbour Fish Co.</strong><br>
+          Fresh catch delivered daily from the coast. A fine selection of locally sourced fish and seafood prepared daily.
+        </div>
+        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
-    <div class="trader-card">
-      <div class="trader-img"><img src="assets/css/image/bakery.jpeg" alt="Bakery"></div>
-      <div class="trader-info"><span class="trader-name">The Old Mill Bakery</span>
-        <p>Artisan breads baked fresh each morning.</p>
+
+    <div class="trader-card-custom">
+      <div class="trader-custom-bg"></div>
+      <div class="trader-custom-img">
+        <img src="assets/css/image/bakery.jpeg" alt="The Old Mill Bakery">
+      </div>
+      <div class="trader-custom-content">
+        <div class="trader-custom-badge">BAKERY</div>
+        <div class="trader-custom-text">
+          <strong>The Old Mill Bakery</strong><br>
+          Artisan breads baked fresh each morning. Speciality sourdoughs, pastries, and sweet treats crafted with care.
+        </div>
+        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
-    <div class="trader-card">
-      <div class="trader-img"><img src="assets/css/image/butcher.jpeg" alt="Butcher"></div>
-      <div class="trader-info"><span class="trader-name">Hendersons Butchers</span>
-        <p>Family-run butchers with 40 years tradition.</p>
+
+    <div class="trader-card-custom">
+      <div class="trader-custom-bg"></div>
+      <div class="trader-custom-img">
+        <img src="assets/css/image/butcher.jpeg" alt="Hendersons Butchers">
+      </div>
+      <div class="trader-custom-content">
+        <div class="trader-custom-badge">MEAT</div>
+        <div class="trader-custom-text">
+          <strong>Hendersons Butchers</strong><br>
+          Family-run butchers with 40 years tradition. Providing premium cuts of locally reared, free-range meats.
+        </div>
+        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
-    <div class="trader-card">
-      <div class="trader-img"><img src="assets/css/image/deli.jpeg" alt="Delicatessen"></div>
-      <div class="trader-info"><span class="trader-name">La Belle Delicatessen</span>
-        <p>Continental cheeses and fine foods.</p>
+
+    <div class="trader-card-custom">
+      <div class="trader-custom-bg"></div>
+      <div class="trader-custom-img">
+        <img src="assets/css/image/deli.jpeg" alt="La Belle Delicatessen">
+      </div>
+      <div class="trader-custom-content">
+        <div class="trader-custom-badge">DELICATESSEN</div>
+        <div class="trader-custom-text">
+          <strong>La Belle Delicatessen</strong><br>
+          Continental cheeses and fine foods. Discover our curated collection of gourmet charcuterie and luxury hampers.
+        </div>
+        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
   </div>
@@ -78,9 +123,10 @@ include 'include/header.php';
 
 <!-- FEATURED PRODUCTS -->
 <section class="featured-section">
-  <div class="section-header">
-    <h2><span>FEATURED</span> PRODUCTS</h2>
-    <div class="section-divider"></div>
+  <div class="container">
+    <div class="traders-section-header featured-header">
+      <h2><span>FEATURED</span> PRODUCTS</h2>
+    </div>
   </div>
 
   <div class="products-grid">
@@ -91,14 +137,11 @@ include 'include/header.php';
       </div>
       <h3><a href="product_detail.php?id=5">Broccoli</a></h3>
       <div class="stars">
-        <span>★★★★☆</span>
-        <span>4.5/5</span>
+        <span style="color:#D4A017;">★★★★☆</span>
+        <span style="font-size:0.8rem;color:#333;">4.5/5</span>
       </div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <a href="product_detail.php?id=5" class="btn btn-green btn-sm">Buy Now</a>
-        <button class="btn btn-sm btn-outline" onclick="quickAdd(5, this)">
-          <i class="fas fa-cart-plus"></i> Add
-        </button>
+      <div style="display:flex;justify-content:center;margin-top:0.5rem;">
+        <a href="product_detail.php?id=5" class="btn btn-green">Buy Now</a>
       </div>
     </div>
 
@@ -108,14 +151,11 @@ include 'include/header.php';
       </div>
       <h3><a href="product_detail.php?id=7">Salmon</a></h3>
       <div class="stars">
-        <span>★★★★★</span>
-        <span>5.0/5</span>
+        <span style="color:#D4A017;">★★★★★</span>
+        <span style="font-size:0.8rem;color:#333;">5.0/5</span>
       </div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <a href="product_detail.php?id=7" class="btn btn-green btn-sm">Buy Now</a>
-        <button class="btn btn-sm btn-outline" onclick="quickAdd(7, this)">
-          <i class="fas fa-cart-plus"></i> Add
-        </button>
+      <div style="display:flex;justify-content:center;margin-top:0.5rem;">
+        <a href="product_detail.php?id=7" class="btn btn-green">Buy Now</a>
       </div>
     </div>
 
@@ -125,14 +165,11 @@ include 'include/header.php';
       </div>
       <h3><a href="product_detail.php?id=9">Sourdough</a></h3>
       <div class="stars">
-        <span>★★★☆☆</span>
-        <span>3.5/5</span>
+        <span style="color:#D4A017;">★★★☆☆</span>
+        <span style="font-size:0.8rem;color:#333;">3.5/5</span>
       </div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <a href="product_detail.php?id=9" class="btn btn-green btn-sm">Buy Now</a>
-        <button class="btn btn-sm btn-outline" onclick="quickAdd(9, this)">
-          <i class="fas fa-cart-plus"></i> Add
-        </button>
+      <div style="display:flex;justify-content:center;margin-top:0.5rem;">
+        <a href="product_detail.php?id=9" class="btn btn-green">Buy Now</a>
       </div>
     </div>
 
@@ -142,14 +179,11 @@ include 'include/header.php';
       </div>
       <h3><a href="product_detail.php?id=8">Steak</a></h3>
       <div class="stars">
-        <span>★★★★☆</span>
-        <span>4.0/5</span>
+        <span style="color:#D4A017;">★★★★☆</span>
+        <span style="font-size:0.8rem;color:#333;">4.0/5</span>
       </div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-        <a href="product_detail.php?id=8" class="btn btn-green btn-sm">Buy Now</a>
-        <button class="btn btn-sm btn-outline" onclick="quickAdd(8, this)">
-          <i class="fas fa-cart-plus"></i> Add
-        </button>
+      <div style="display:flex;justify-content:center;margin-top:0.5rem;">
+        <a href="product_detail.php?id=8" class="btn btn-green">Buy Now</a>
       </div>
     </div>
 

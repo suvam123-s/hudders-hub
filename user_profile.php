@@ -1,156 +1,105 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: Login.php');
+    exit;
+}
+
+require_once 'include/db_connect.php';
+$conn = get_db_connection();
+
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT email, phonenumber FROM USER_ACCOUNT WHERE user_ID = :user_id";
+$stmt = oci_parse($conn, $sql);
+oci_bind_by_name($stmt, ':user_id', $user_id);
+oci_execute($stmt);
+$user = oci_fetch_assoc($stmt);
+oci_free_statement($stmt);
+
+$email = $user['EMAIL'] ?? 'username123@gmail.com';
+$phone = $user['PHONENUMBER'] ?? '+977-9823123456';
+
 $pageTitle = 'User Profile – Hudders Hub';
+include 'include/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" href="assets/css/profile.css">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Manage your Hudders Hub profile, view recent purchases, and update your account.">
-  <title><?= htmlspecialchars($pageTitle) ?></title>
-  <link rel="stylesheet" href="assets/css/style.css">
-</head>
+<main class="user-profile-wrapper">
+    <!-- Decorative Leaves (assuming image exists, else it will be blank) -->
+    <img src="assets/css/image/leaves.png" alt="" class="profile-vine">
 
-<body class="profile-page">
+    <div class="profile-info-section">
+        <!-- Avatar -->
+        <div class="profile-avatar-large"></div>
 
-  <!-- Page-specific header matching the wireframe (USER icon, Shop, Log Out) -->
-  <header class="site-header">
-    <div class="header-inner">
-      <!-- Logo -->
-      <div class="logo">
-        <a href="index.php">
-          <img src="assets/css/image/logo.png" alt="Hudders Hub Logo">
-        </a>
-      </div>
+        <!-- User Info -->
+        <p class="profile-email-large"><?= htmlspecialchars($email) ?></p>
+        <p class="profile-phone-large"><?= htmlspecialchars($phone) ?></p>
 
-      <!-- Search -->
-      <form class="search-form" action="customer/shop.php" method="get">
-        <input type="text" name="q" placeholder="Search Product">
-        <button type="submit">🔍</button>
-      </form>
-
-      <!-- Header Actions -->
-      <div class="header-actions">
-        <a href="user_profile.php" class="profile-header-user">
-          <span class="profile-header-user-icon">👤</span>
-          <span class="profile-header-user-label">USER</span>
-        </a>
-        <a href="customer/shop.php" class="btn btn-outline">Shop</a>
-        <a href="index.php" class="btn btn-dark">Log Out</a>
-        <a href="customer/cart.php" class="cart-icon">🛒</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ====== PROFILE SECTION ====== -->
-  <section class="profile-section">
-
-    <!-- Decorative leaves on the right -->
-    <div class="profile-leaves">
-      <img src="assets/css/image/leaves.g" alt="Decorative leaves">
+        <!-- Actions -->
+        <div class="profile-top-actions">
+            <a href="update_profile.php" class="btn-update-profile">UPDATE</a>
+            <a href="logout.php" class="btn-logout-profile">LOG OUT</a>
+        </div>
     </div>
 
-    <div class="profile-content">
+    <!-- Recent Purchases -->
+    <div class="recent-purchases-container">
+        <h2 class="recent-purchases-title">Recent Purchases</h2>
 
-      <!-- Avatar -->
-      <div class="profile-avatar">
-        <div class="profile-avatar-circle"></div>
-      </div>
+        <!-- Purchase Card 1 -->
+        <div class="purchase-card">
+            <div class="purchase-img-box"></div>
+            <div class="purchase-details">
+                <h3 class="purchase-name">Organic Seasonal Veg Box</h3>
+                <p class="purchase-price">Price:<strong>$35.00</strong></p>
+                <p class="purchase-desc">
+                    A beautiful, hand-picked selection of this week's finest seasonal vegetables straight from Cleckhudderfax's local farms. Packed with nutrients and flavor, this box includes farm-fresh carrots, leafy greens, heirloom tomatoes, and crisp cucumbers, all grown without synthetic pesticides to support a healthier lifestyle and our local environment.
+                </p>
+                <div class="purchase-meta">
+                    <span>012-345-678-901-23</span>
+                    <span>Quantity : 12</span>
+                </div>
+            </div>
+            <button class="btn-review">REVIEW</button>
+        </div>
 
-      <!-- User Info -->
-      <p class="profile-email">username123@gmail.com</p>
-      <p class="profile-phone">+977-9823123456</p>
+        <!-- Purchase Card 2 -->
+        <div class="purchase-card">
+            <div class="purchase-img-box"></div>
+            <div class="purchase-details">
+                <h3 class="purchase-name">Artisan Sourdough Loaf</h3>
+                <p class="purchase-price">Price:<strong>$8.50</strong></p>
+                <p class="purchase-desc">
+                    Freshly baked daily by our master bakers, this traditional sourdough loaf is made using a slow-fermentation process that develops a deep, tangy flavor and a perfectly crisp crust. Crafted with organic, locally milled flour and a historic natural starter, it's the perfect companion for your morning breakfast or paired with our farmhouse cheeses.
+                </p>
+                <div class="purchase-meta">
+                    <span>012-345-678-901-23</span>
+                    <span>Quantity : 12</span>
+                </div>
+            </div>
+            <button class="btn-review">REVIEW</button>
+        </div>
 
-      <!-- Action Buttons -->
-      <div class="profile-buttons">
-        <button class="profile-btn-update">UPDATE</button>
-        <button class="profile-btn-logout">LOG OUT</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====== RECENT PURCHASES ====== -->
-  <section class="profile-purchases">
-    <div class="profile-purchases-inner">
-      <h2 class="profile-section-heading">Recent Purchases</h2>
-
-      <!-- Purchase Card 1 -->
-      <div class="profile-purchase-card">
-        <div class="profile-purchase-img">
-          <div class="profile-purchase-img-placeholder"></div>
+        <!-- Purchase Card 3 -->
+        <div class="purchase-card">
+            <div class="purchase-img-box"></div>
+            <div class="purchase-details">
+                <h3 class="purchase-name">Aged Farmhouse Cheddar</h3>
+                <p class="purchase-price">Price:<strong>$14.00</strong></p>
+                <p class="purchase-desc">
+                    Award-winning traditional cheddar cheese, carefully aged for over 12 months in our local dairy cellars. This rich, crumbly cheese boasts a robust and nutty profile with crystalline crunches that melt in your mouth. Perfect for cheeseboards, grating over hot dishes, or enjoying simply with a slice of fresh sourdough bread.
+                </p>
+                <div class="purchase-meta">
+                    <span>012-345-678-901-23</span>
+                    <span>Quantity : 12</span>
+                </div>
+            </div>
+            <button class="btn-review">REVIEW</button>
         </div>
-        <div class="profile-purchase-info">
-          <h3 class="profile-purchase-name">Product name</h3>
-          <p class="profile-purchase-price">Price:<strong>$200</strong></p>
-          <p class="profile-purchase-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada nulla nec augue rhoncus, eget
-            ullamcorper nulla ultricies. Fusce vulputate scelerisque est, ac venenatis nisi facilisis id. Vivamus vel
-            massa eget velit sagittis blandit. Nullam condimentum ipsum nec purus finibus, ac mattis mauris malesuada.
-            Fusce dignissim diam ut ligula tincidunt euismod. Proin ut mauris malesuada, placerat nulla sed, faucibus
-            augue. Donec eget risus tellus. Phasellus euismod dui et lacus mollis ultricies.
-          </p>
-          <div class="profile-purchase-meta">
-            <span>012-345-678-901-23</span>
-            <span>Quantity : 12</span>
-          </div>
-        </div>
-        <div class="profile-purchase-action">
-          <button class="profile-review-btn">REVIEW</button>
-        </div>
-      </div>
-
-      <!-- Purchase Card 2 -->
-      <div class="profile-purchase-card">
-        <div class="profile-purchase-img">
-          <div class="profile-purchase-img-placeholder"></div>
-        </div>
-        <div class="profile-purchase-info">
-          <h3 class="profile-purchase-name">Product name</h3>
-          <p class="profile-purchase-price">Price:<strong>$200</strong></p>
-          <p class="profile-purchase-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada nulla nec augue rhoncus, eget
-            ullamcorper nulla ultricies. Fusce vulputate scelerisque est, ac venenatis nisi facilisis id. Vivamus vel
-            massa eget velit sagittis blandit. Nullam condimentum ipsum nec purus finibus, ac mattis mauris malesuada.
-            Fusce dignissim diam ut ligula tincidunt euismod. Proin ut mauris malesuada, placerat nulla sed, faucibus
-            augue. Donec eget risus tellus. Phasellus euismod dui et lacus mollis ultricies.
-          </p>
-          <div class="profile-purchase-meta">
-            <span>012-345-678-901-23</span>
-            <span>Quantity : 12</span>
-          </div>
-        </div>
-        <div class="profile-purchase-action">
-          <button class="profile-review-btn">REVIEW</button>
-        </div>
-      </div>
-
-      <!-- Purchase Card 3 -->
-      <div class="profile-purchase-card">
-        <div class="profile-purchase-img">
-          <div class="profile-purchase-img-placeholder"></div>
-        </div>
-        <div class="profile-purchase-info">
-          <h3 class="profile-purchase-name">Product name</h3>
-          <p class="profile-purchase-price">Price:<strong>$200</strong></p>
-          <p class="profile-purchase-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada nulla nec augue rhoncus, eget
-            ullamcorper nulla ultricies. Fusce vulputate scelerisque est, ac venenatis nisi facilisis id. Vivamus vel
-            massa eget velit sagittis blandit. Nullam condimentum ipsum nec purus finibus, ac mattis mauris malesuada.
-            Fusce dignissim diam ut ligula tincidunt euismod. Proin ut mauris malesuada, placerat nulla sed, faucibus
-            augue. Donec eget risus tellus. Phasellus euismod dui et lacus mollis ultricies.
-          </p>
-          <div class="profile-purchase-meta">
-            <span>012-345-678-901-23</span>
-            <span>Quantity : 12</span>
-          </div>
-        </div>
-        <div class="profile-purchase-action">
-          <button class="profile-review-btn">REVIEW</button>
-        </div>
-      </div>
 
     </div>
-  </section>
+</main>
 
-  <?php include 'include/footer.php'; ?>
+<?php include 'include/footer.php'; ?>

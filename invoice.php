@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-// ── Guard: must arrive from order_confirmed (session data present) ────────────
 if (empty($_SESSION['invoice_ref'])) {
     header('Location: index.php');
     exit();
@@ -33,10 +31,10 @@ include 'include/header.php';
 
   <div class="inv-card">
 
-    <!-- ── Bill To / Ship To ──────────────────────────────── -->
-    <div class="inv-addresses">
+    <!-- ── Bill To ────────────────────────────────────────── -->
+    <div class="inv-addresses" style="justify-content: center;">
 
-      <div class="inv-address-block">
+      <div class="inv-address-block" style="text-align: center; flex: unset;">
         <p class="inv-address-label">BILL TO</p>
         <p class="inv-address-name"><?= htmlspecialchars($bill_name) ?></p>
         <?php foreach (explode("\n", $bill_address) as $line): ?>
@@ -45,14 +43,6 @@ include 'include/header.php';
         <?php if ($bill_email): ?>
           <p class="inv-address-email"><?= htmlspecialchars($bill_email) ?></p>
         <?php endif; ?>
-      </div>
-
-      <div class="inv-address-block">
-        <p class="inv-address-label">SHIP TO</p>
-        <p class="inv-address-name"><?= htmlspecialchars($ship_name) ?></p>
-        <?php foreach (explode("\n", $ship_address) as $line): ?>
-          <p class="inv-address-line"><?= htmlspecialchars(trim($line)) ?></p>
-        <?php endforeach; ?>
       </div>
 
     </div>

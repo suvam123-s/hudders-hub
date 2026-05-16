@@ -9,39 +9,39 @@ if (!isset($_SESSION['wishlist'])) $_SESSION['wishlist'] = [];
 // ── Master product catalog ──
 $products = [
     1 => [
-        'name' => 'Orange', 'price' => 145, 'image' => 'assets/css/image/orange.jpg',
+        'name' => 'Orange', 'price' => 1.49, 'image' => 'assets/css/image/orange.jpg',
         'rating' => 3.5, 'category' => 'grocery', 'old_price' => null,
     ],
     2 => [
-        'name' => 'Banana', 'price' => 180, 'image' => 'assets/css/image/bannan.png',
+        'name' => 'Banana', 'price' => 1.29, 'image' => 'assets/css/image/bannan.png',
         'rating' => 4.5, 'category' => 'grocery', 'old_price' => null,
     ],
     3 => [
-        'name' => 'Pineapple', 'price' => 120, 'image' => 'assets/css/image/pineapple.jpg',
-        'rating' => 5.0, 'category' => 'grocery', 'old_price' => 150,
+        'name' => 'Pineapple', 'price' => 2.50, 'image' => 'assets/css/image/pineapple.jpg',
+        'rating' => 5.0, 'category' => 'grocery', 'old_price' => 3.20,
     ],
     4 => [
-        'name' => 'Pomegranate', 'price' => 240, 'image' => 'assets/css/image/fomegranate.jpg',
-        'rating' => 3.5, 'category' => 'grocery', 'old_price' => 260,
+        'name' => 'Pomegranate', 'price' => 2.99, 'image' => 'assets/css/image/fomegranate.jpg',
+        'rating' => 3.5, 'category' => 'grocery', 'old_price' => 3.50,
     ],
     5 => [
-        'name' => 'Broccoli', 'price' => 180, 'image' => 'assets/css/image/broccoli.png',
+        'name' => 'Broccoli', 'price' => 1.20, 'image' => 'assets/css/image/broccoli.png',
         'rating' => 4.5, 'category' => 'grocery', 'old_price' => null,
     ],
     6 => [
-        'name' => 'Cauliflower', 'price' => 130, 'image' => 'assets/css/image/cauliflower.png',
-        'rating' => 4.5, 'category' => 'grocery', 'old_price' => 160,
+        'name' => 'Cauliflower', 'price' => 1.50, 'image' => 'assets/css/image/cauliflower.png',
+        'rating' => 4.5, 'category' => 'grocery', 'old_price' => 1.99,
     ],
     7 => [
-        'name' => 'Salmon', 'price' => 212, 'image' => 'assets/css/image/salmon.png',
-        'rating' => 5.0, 'category' => 'fish', 'old_price' => 232,
+        'name' => 'Salmon', 'price' => 6.90, 'image' => 'assets/css/image/salmon.png',
+        'rating' => 5.0, 'category' => 'fish', 'old_price' => 7.99,
     ],
     8 => [
-        'name' => 'Steak', 'price' => 145, 'image' => 'assets/css/image/steak.png',
+        'name' => 'Steak', 'price' => 8.50, 'image' => 'assets/css/image/steak.png',
         'rating' => 4.0, 'category' => 'frozen_meat', 'old_price' => null,
     ],
     9 => [
-        'name' => 'Sourdough', 'price' => 80, 'image' => 'assets/css/image/sourdough.png',
+        'name' => 'Sourdough', 'price' => 3.50, 'image' => 'assets/css/image/sourdough.png',
         'rating' => 3.5, 'category' => 'bakery', 'old_price' => null,
     ],
 ];
@@ -57,7 +57,7 @@ $categories = [
 
 // ── Filtering ──
 $active_cat   = $_GET['category'] ?? '';
-$max_price    = isset($_GET['max_price']) ? (int)$_GET['max_price'] : 260;
+$max_price    = isset($_GET['max_price']) ? (float)$_GET['max_price'] : 15;
 $sort_by      = $_GET['sort'] ?? 'popular';
 $search_query = trim($_GET['q'] ?? '');
 
@@ -168,9 +168,9 @@ include 'include/header.php';
             <i class="fas fa-chevron-up"></i>
           </div>
           <div class="price-range-wrap">
-            <input type="range" id="priceRange" name="max_price" min="5" max="260" value="<?= $max_price ?>" class="price-slider" oninput="updatePriceLabel(this.value)">
+            <input type="range" id="priceRange" name="max_price" min="1" max="15" value="<?= $max_price ?>" class="price-slider" step="0.50" oninput="updatePriceLabel(this.value)">
             <div class="price-labels">
-              <span>$5</span>
+              <span>$1</span>
               <span id="priceMax">$<?= $max_price ?></span>
             </div>
           </div>

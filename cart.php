@@ -3,10 +3,15 @@ session_start();
 
 // ── Product catalogue ─────────────────────────────────────────
 $catalogue = [
-  1 => ['name' => 'Broccoli', 'price' => 2.50, 'image' => 'assets/css/image/broccoli.png'],
-  2 => ['name' => 'Salmon', 'price' => 12.99, 'image' => 'assets/css/image/salmon.png'],
-  3 => ['name' => 'Sourdough', 'price' => 4.50, 'image' => 'assets/css/image/sourdough.png'],
-  4 => ['name' => 'Steak', 'price' => 15.99, 'image' => 'assets/css/image/steak.png'],
+  1 => ['name' => 'Orange', 'price' => 1.49, 'image' => 'assets/css/image/orange.jpg'],
+  2 => ['name' => 'Banana', 'price' => 1.29, 'image' => 'assets/css/image/bannan.png'],
+  3 => ['name' => 'Pineapple', 'price' => 2.50, 'image' => 'assets/css/image/pineapple.jpg'],
+  4 => ['name' => 'Pomegranate', 'price' => 2.99, 'image' => 'assets/css/image/fomegranate.jpg'],
+  5 => ['name' => 'Broccoli', 'price' => 1.20, 'image' => 'assets/css/image/broccoli.png'],
+  6 => ['name' => 'Cauliflower', 'price' => 1.50, 'image' => 'assets/css/image/cauliflower.png'],
+  7 => ['name' => 'Salmon', 'price' => 6.90, 'image' => 'assets/css/image/salmon.png'],
+  8 => ['name' => 'Steak', 'price' => 8.50, 'image' => 'assets/css/image/steak.png'],
+  9 => ['name' => 'Sourdough', 'price' => 3.50, 'image' => 'assets/css/image/sourdough.png'],
 ];
 
 // ── Handle POST actions ───────────────────────────────────────

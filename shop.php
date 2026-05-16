@@ -44,6 +44,123 @@ $products = [
         'name' => 'Sourdough', 'price' => 3.50, 'image' => 'assets/css/image/sourdough.png',
         'rating' => 3.5, 'category' => 'bakery', 'old_price' => null,
     ],
+    10 => [
+        'name' => 'Bagels', 'price' => 2.50, 'image' => 'assets/css/image/bagels.jpg',
+        'rating' => 4.2, 'category' => 'bakery', 'old_price' => null,
+    ],
+    11 => [
+        'name' => 'Croissant', 'price' => 1.80, 'image' => 'assets/css/image/croissant.jpg',
+        'rating' => 4.8, 'category' => 'bakery', 'old_price' => null,
+    ],
+    12 => [
+        'name' => 'Cake', 'price' => 4.50, 'image' => 'assets/css/image/cake.jpg',
+        'rating' => 4.5, 'category' => 'bakery', 'old_price' => 5.00,
+    ],
+    13 => [
+        'name' => 'Donuts', 'price' => 3.00, 'image' => 'assets/css/image/donuts.jpg',
+        'rating' => 4.6, 'category' => 'bakery', 'old_price' => null,
+    ],
+    14 => [
+        'name' => 'Muffins', 'price' => 2.20, 'image' => 'assets/css/image/muffins.jpg',
+        'rating' => 4.3, 'category' => 'bakery', 'old_price' => null,
+    ],
+    15 => [
+        'name' => 'Cheese', 'price' => 5.50, 'image' => 'assets/css/image/cheese.jpg',
+        'rating' => 4.7, 'category' => 'deli', 'old_price' => null,
+    ],
+    16 => [
+        'name' => 'Ham', 'price' => 4.20, 'image' => 'assets/css/image/ham.jpg',
+        'rating' => 4.4, 'category' => 'deli', 'old_price' => null,
+    ],
+    17 => [
+        'name' => 'Prawns', 'price' => 8.90, 'image' => 'assets/css/image/prawns.jpg',
+        'rating' => 4.9, 'category' => 'fish', 'old_price' => 9.50,
+    ],
+    18 => [
+        'name' => 'Coffee', 'price' => 6.50, 'image' => 'assets/css/image/coffee.jpg',
+        'rating' => 4.8, 'category' => 'grocery', 'old_price' => 7.20,
+    ],
+    19 => [
+        'name' => 'Cooking Oil', 'price' => 3.20, 'image' => 'assets/css/image/cooking oil.jpg',
+        'rating' => 4.0, 'category' => 'grocery', 'old_price' => null,
+    ],
+    20 => [
+        'name' => 'Sugar', 'price' => 1.50, 'image' => 'assets/css/image/sugar.jpg',
+        'rating' => 4.1, 'category' => 'grocery', 'old_price' => null,
+    ],
+    21 => [
+        'name' => 'Lemon Zest', 'price' => 1.10, 'image' => 'assets/css/image/Lemon zest.png',
+        'rating' => 4.5, 'category' => 'grocery', 'old_price' => null,
+    ],
+    22 => [
+        'name' => 'Fish Fillet', 'price' => 7.50, 'image' => 'assets/css/image/Fish fillet.jpg',
+        'rating' => 4.5, 'category' => 'fish', 'old_price' => null,
+    ],
+    23 => [
+        'name' => 'Frozen Chicken', 'price' => 5.50, 'image' => 'assets/css/image/Frozen chicken.jpg',
+        'rating' => 4.3, 'category' => 'frozen_meat', 'old_price' => null,
+    ],
+    24 => [
+        'name' => 'Lobster', 'price' => 25.00, 'image' => 'assets/css/image/Lobster.jpg',
+        'rating' => 4.9, 'category' => 'fish', 'old_price' => 28.00,
+    ],
+    25 => [
+        'name' => 'Tuna', 'price' => 12.00, 'image' => 'assets/css/image/Tuna.jpg',
+        'rating' => 4.6, 'category' => 'fish', 'old_price' => null,
+    ],
+    26 => [
+        'name' => 'Bacon', 'price' => 4.80, 'image' => 'assets/css/image/bacon.jpg',
+        'rating' => 4.7, 'category' => 'frozen_meat', 'old_price' => null,
+    ],
+    27 => [
+        'name' => 'Beef Steak', 'price' => 10.50, 'image' => 'assets/css/image/beef steak.jpg',
+        'rating' => 4.8, 'category' => 'frozen_meat', 'old_price' => 12.00,
+    ],
+    28 => [
+        'name' => 'Pickle', 'price' => 2.50, 'image' => 'assets/css/image/pickle.jpg',
+        'rating' => 4.1, 'category' => 'deli', 'old_price' => null,
+    ],
+    29 => [
+        'name' => 'Salad', 'price' => 3.50, 'image' => 'assets/css/image/salad.jpg',
+        'rating' => 4.4, 'category' => 'deli', 'old_price' => null,
+    ],
+    30 => [
+        'name' => 'Sandwich', 'price' => 4.50, 'image' => 'assets/css/image/sandwich.jpg',
+        'rating' => 4.6, 'category' => 'deli', 'old_price' => null,
+    ],
+    31 => [
+        'name' => 'Cookies', 'price' => 2.80, 'image' => 'assets/css/image/Cookies.jpg',
+        'rating' => 4.6, 'category' => 'bakery', 'old_price' => null,
+    ],
+    32 => [
+        'name' => 'Frozen Mutton', 'price' => 14.50, 'image' => 'assets/css/image/Frozen mutton.jpg',
+        'rating' => 4.3, 'category' => 'frozen_meat', 'old_price' => null,
+    ],
+    33 => [
+        'name' => 'Olives', 'price' => 3.20, 'image' => 'assets/css/image/Olives.jpg',
+        'rating' => 4.5, 'category' => 'deli', 'old_price' => null,
+    ],
+    34 => [
+        'name' => 'Sausage', 'price' => 5.00, 'image' => 'assets/css/image/Sausage.jpg',
+        'rating' => 4.4, 'category' => 'frozen_meat', 'old_price' => null,
+    ],
+    35 => [
+        'name' => 'Bread', 'price' => 2.00, 'image' => 'assets/css/image/bread.jpg',
+        'rating' => 4.2, 'category' => 'bakery', 'old_price' => null,
+    ],
+
+    37 => [
+        'name' => 'Pastries', 'price' => 3.50, 'image' => 'assets/css/image/pastries.jpg',
+        'rating' => 4.7, 'category' => 'bakery', 'old_price' => null,
+    ],
+    38 => [
+        'name' => 'Salami', 'price' => 4.80, 'image' => 'assets/css/image/salami.jpg',
+        'rating' => 4.5, 'category' => 'deli', 'old_price' => null,
+    ],
+    39 => [
+        'name' => 'Smoked Meat', 'price' => 6.00, 'image' => 'assets/css/image/smoked meat.jpg',
+        'rating' => 4.8, 'category' => 'deli', 'old_price' => null,
+    ],
 ];
 
 // ── Category mapping ──
@@ -57,7 +174,7 @@ $categories = [
 
 // ── Filtering ──
 $active_cat   = $_GET['category'] ?? '';
-$max_price    = isset($_GET['max_price']) ? (float)$_GET['max_price'] : 15;
+$max_price    = isset($_GET['max_price']) ? (float)$_GET['max_price'] : 30;
 $sort_by      = $_GET['sort'] ?? 'popular';
 $search_query = trim($_GET['q'] ?? '');
 
@@ -168,7 +285,7 @@ include 'include/header.php';
             <i class="fas fa-chevron-up"></i>
           </div>
           <div class="price-range-wrap">
-            <input type="range" id="priceRange" name="max_price" min="1" max="15" value="<?= $max_price ?>" class="price-slider" step="0.50" oninput="updatePriceLabel(this.value)">
+            <input type="range" id="priceRange" name="max_price" min="1" max="30" value="<?= $max_price ?>" class="price-slider" step="0.50" oninput="updatePriceLabel(this.value)">
             <div class="price-labels">
               <span>$1</span>
               <span id="priceMax">$<?= $max_price ?></span>

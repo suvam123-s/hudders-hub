@@ -3,6 +3,8 @@ session_start();
 if (empty($_SESSION['cart']))          { header('Location: cart.php');     exit; }
 if (empty($_SESSION['checkout_day']))  { header('Location: checkout.php'); exit; }
 
+require_once 'include/paypal_config.php';
+
 $subtotal     = array_sum(array_map(fn($i) => $i['price'] * $i['qty'], $_SESSION['cart']));
 $discount_pct = (int)($_SESSION['promo_discount'] ?? 0);
 $discount_amt = (int)round($subtotal * $discount_pct / 100);
@@ -10,60 +12,6 @@ $total        = $subtotal - $discount_amt;
 $item_count   = array_sum(array_column($_SESSION['cart'], 'qty'));
 $day          = $_SESSION['checkout_day'];
 $time         = $_SESSION['checkout_time'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'pay') {
-    $order_ref = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));
-
-    // Save order to log
-    $log_dir = __DIR__ . '/messages';
-    if (!is_dir($log_dir)) mkdir($log_dir, 0755, true);
-    $items_text = '';
-    foreach ($_SESSION['cart'] as $item) {
-        $items_text .= "  - {$item['name']} x{$item['qty']} = \${$item['price']}\n";
-    }
-    $entry = "========================================\n"
-           . "ORDER REF:   $order_ref\n"
-           . "DATE:        " . date('Y-m-d H:i:s') . "\n"
-           . "Collection:  $day @ $time\n"
-           . "Payment:     PayPal\n"
-           . "Items:\n$items_text"
-           . "Subtotal:    \$$subtotal\n"
-           . "Discount:    -\$$discount_amt\n"
-           . "Total Paid:  \$$total\n\n";
-    file_put_contents($log_dir . '/orders.log', $entry, FILE_APPEND | LOCK_EX);
-
-    // Store for confirmation page
-    $_SESSION['order_ref']   = $order_ref;
-    $_SESSION['order_total'] = $total;
-    $_SESSION['order_day']   = $day;
-    $_SESSION['order_time']  = $time;
-    $_SESSION['order_items'] = $_SESSION['cart'];
-
-    // Store for invoice page
-    $_SESSION['invoice_ref']          = $order_ref;
-    $_SESSION['invoice_items']         = $_SESSION['cart'];
-    $_SESSION['invoice_subtotal']      = $subtotal;
-    $_SESSION['invoice_discount_pct']  = $discount_pct;
-    $_SESSION['invoice_discount_amt']  = $discount_amt;
-    $_SESSION['invoice_tax_pct']       = 0;
-    $_SESSION['invoice_tax_amt']       = 0;
-    $_SESSION['invoice_total']         = $total;
-    $_SESSION['invoice_bill_name']     = $_SESSION['user_name'] ?? '';
-    $_SESSION['invoice_bill_address']  = '';
-    $_SESSION['invoice_bill_email']    = $_SESSION['user_email'] ?? '';
-    $_SESSION['invoice_ship_name']     = $_SESSION['user_name'] ?? '';
-    $_SESSION['invoice_ship_address']  = '';
-    $_SESSION['invoice_date']          = date('F j, Y');
-
-    // Clear cart
-    $_SESSION['cart'] = [];
-    $_SESSION['promo_code'] = null;
-    $_SESSION['promo_discount'] = 0;
-    unset($_SESSION['checkout_day'], $_SESSION['checkout_time']);
-
-    header('Location: order_confirmed.php');
-    exit;
-}
 
 $pageTitle = 'Payment – Hudders Hub';
 include 'include/header.php';
@@ -135,14 +83,21 @@ include 'include/header.php';
           <p class="pp-note">You'll complete payment on PayPal's secure page. We never see your financial details.</p>
         </div>
 
-        <!-- Pay button -->
-        <form method="POST" action="payment.php">
-          <input type="hidden" name="action" value="pay">
-          <button type="submit" class="pay-btn">
-            <i class="fab fa-paypal"></i>
-            Pay $<?= number_format($total) ?> with PayPal
-          </button>
-        </form>
+        <!-- PayPal Smart Payment Buttons Container -->
+        <div id="paypal-button-container"></div>
+
+        <!-- Error message area -->
+        <div id="paypal-error" class="pp-error-msg" style="display:none;">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span id="paypal-error-text"></span>
+        </div>
+
+        <!-- Processing overlay -->
+        <div id="paypal-processing" class="pp-processing" style="display:none;">
+          <div class="pp-spinner"></div>
+          <p>Processing your payment securely…</p>
+        </div>
+
         <p class="pay-secure-note"><i class="fas fa-lock"></i> 256-bit SSL encrypted · Your data is always safe</p>
       </div>
 
@@ -177,5 +132,99 @@ include 'include/header.php';
     </div>
   </div>
 </main>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PayPal JavaScript SDK — Smart Payment Buttons
+     ══════════════════════════════════════════════════════════════ -->
+<script src="https://www.paypal.com/sdk/js?client-id=<?= htmlspecialchars(paypal_client_id(), ENT_QUOTES, 'UTF-8') ?>&currency=<?= PAYPAL_CURRENCY ?>&intent=capture&disable-funding=credit,card"></script>
+
+<script>
+// ── PayPal Smart Buttons ──
+paypal.Buttons({
+
+  // Style the buttons to match the site design
+  style: {
+    layout:  'vertical',
+    color:   'blue',
+    shape:   'rect',
+    label:   'paypal',
+    height:  50,
+    tagline: false,
+  },
+
+  // ── Step 1: Create the order on our server ──
+  createOrder: function(data, actions) {
+    showProcessing(false);
+    hideError();
+
+    return fetch('api/paypal_create_order.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(orderData) {
+      if (orderData.error) {
+        throw new Error(orderData.error);
+      }
+      return orderData.id; // Return the PayPal order ID
+    });
+  },
+
+  // ── Step 2: Buyer approved → capture the payment ──
+  onApprove: function(data, actions) {
+    showProcessing(true);
+
+    return fetch('api/paypal_capture_order.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderID: data.orderID }),
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(captureData) {
+      if (captureData.status === 'COMPLETED') {
+        // ✅ Payment successful — redirect to confirmation
+        window.location.href = 'order_confirmed.php';
+      } else {
+        showProcessing(false);
+        showError(captureData.error || 'Payment could not be completed. Please try again.');
+      }
+    })
+    .catch(function(err) {
+      showProcessing(false);
+      showError('An error occurred while processing your payment. Please try again.');
+      console.error('PayPal Capture Error:', err);
+    });
+  },
+
+  // ── Buyer cancelled ──
+  onCancel: function(data) {
+    showProcessing(false);
+    showError('Payment was cancelled. You can try again whenever you\'re ready.');
+  },
+
+  // ── SDK / network error ──
+  onError: function(err) {
+    showProcessing(false);
+    showError('Something went wrong with PayPal. Please try again or contact support.');
+    console.error('PayPal SDK Error:', err);
+  },
+
+}).render('#paypal-button-container');
+
+// ── UI Helpers ──
+function showError(msg) {
+  var el = document.getElementById('paypal-error');
+  document.getElementById('paypal-error-text').textContent = msg;
+  el.style.display = 'flex';
+}
+
+function hideError() {
+  document.getElementById('paypal-error').style.display = 'none';
+}
+
+function showProcessing(show) {
+  document.getElementById('paypal-processing').style.display = show ? 'flex' : 'none';
+}
+</script>
 
 <?php include 'include/footer.php'; ?>

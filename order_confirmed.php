@@ -2,14 +2,17 @@
 session_start();
 if (empty($_SESSION['order_ref'])) { header('Location: index.php'); exit; }
 
-$ref   = $_SESSION['order_ref'];
-$total = $_SESSION['order_total'];
-$day   = $_SESSION['order_day'];
-$time  = $_SESSION['order_time'];
-$items = $_SESSION['order_items'] ?? [];
+$ref    = $_SESSION['order_ref'];
+$total  = $_SESSION['order_total'];
+$day    = $_SESSION['order_day'];
+$time   = $_SESSION['order_time'];
+$items  = $_SESSION['order_items'] ?? [];
+$txn_id = $_SESSION['order_txn_id'] ?? '';
+$payer  = $_SESSION['order_payer'] ?? '';
 
 unset($_SESSION['order_ref'], $_SESSION['order_total'],
-      $_SESSION['order_day'], $_SESSION['order_time'], $_SESSION['order_items']);
+      $_SESSION['order_day'], $_SESSION['order_time'], $_SESSION['order_items'],
+      $_SESSION['order_txn_id'], $_SESSION['order_payer']);
 
 $pageTitle = 'Order Confirmed – Hudders Hub';
 include 'include/header.php';
@@ -55,6 +58,9 @@ include 'include/header.php';
         <i class="fab fa-paypal"></i>
         <span class="oc-tile-label">Payment</span>
         <span class="oc-tile-val">PayPal</span>
+        <?php if ($txn_id): ?>
+        <span class="oc-tile-txn">TXN: <?= htmlspecialchars($txn_id, ENT_QUOTES, 'UTF-8') ?></span>
+        <?php endif; ?>
       </div>
       <div class="oc-tile oc-tile-green">
         <i class="fas fa-receipt"></i>

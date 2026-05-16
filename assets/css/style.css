@@ -79,7 +79,8 @@ a {
 .header-inner {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 16px 24px; /* Increased vertical padding to make the header larger */
+    padding: 16px 24px;
+    /* Increased vertical padding to make the header larger */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -95,7 +96,8 @@ a {
 }
 
 .logo img {
-    width: 54px; /* Scaled up to match larger header */
+    width: 54px;
+    /* Scaled up to match larger header */
     height: 54px;
     object-fit: contain;
 }
@@ -3299,6 +3301,78 @@ a.checkout-btn:hover,
 
 .pay-secure-note i {
     color: var(--olive, #5C6B3A);
+}
+
+/* ── PayPal SDK Button Container ─────────────── */
+#paypal-button-container {
+    margin-bottom: 18px;
+    min-height: 55px;
+}
+
+/* ── PayPal Error Message ────────────────────── */
+.pp-error-msg {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #fef2f2 0%, #fff5f5 100%);
+    border: 1.5px solid #fca5a5;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    font-size: 0.87rem;
+    color: #991b1b;
+    animation: fadeUp 0.3s ease both;
+}
+
+.pp-error-msg i {
+    color: #dc2626;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* ── Processing Overlay ──────────────────────── */
+.pp-processing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 20px;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, #f0f5ff 0%, #e8f0ff 100%);
+    border: 1.5px solid #b3c6f0;
+    border-radius: 16px;
+    animation: fadeUp 0.3s ease both;
+}
+
+.pp-processing p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #003087;
+    margin: 0;
+}
+
+.pp-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e0e8f5;
+    border-top-color: #003087;
+    border-radius: 50%;
+    animation: ppSpin 0.8s linear infinite;
+}
+
+@keyframes ppSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Transaction ID on Confirmation Page ─────── */
+.oc-tile-txn {
+    display: block;
+    font-size: 0.62rem;
+    color: #9a9488;
+    word-break: break-all;
+    margin-top: 2px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.02em;
 }
 
 

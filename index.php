@@ -37,14 +37,14 @@ include 'include/header.php';
 
 
 <!-- OUR TRADERS -->
-<section class="traders-section">
+<section class="traders-section" id="traders">
   <div class="container">
     <div class="traders-section-header">
       <h2>OUR TRADERS</h2>
     </div>
   </div>
   <div class="traders-grid-custom">
-    <div class="trader-card-custom">
+    <a href="trader_profile.php?id=2" class="trader-card-custom trader-card-link">
       <div class="trader-custom-bg"></div>
       <div class="trader-custom-img">
         <img src="assets/css/image/greengrocer.jpg" alt="Greens & Roots">
@@ -55,11 +55,11 @@ include 'include/header.php';
           <strong>Greens & Roots</strong><br>
           Fresh seasonal fruit and vegetables direct from local farms. Ensuring the highest quality produce for your family.
         </div>
-        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
+        <span class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
-    </div>
+    </a>
     
-    <div class="trader-card-custom">
+    <a href="trader_profile.php?id=3" class="trader-card-custom trader-card-link">
       <div class="trader-custom-bg"></div>
       <div class="trader-custom-img">
         <img src="assets/css/image/fishmonger.jpeg" alt="The Harbour Fish Co.">
@@ -70,11 +70,11 @@ include 'include/header.php';
           <strong>The Harbour Fish Co.</strong><br>
           Fresh catch delivered daily from the coast. A fine selection of locally sourced fish and seafood prepared daily.
         </div>
-        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
+        <span class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
-    </div>
+    </a>
 
-    <div class="trader-card-custom">
+    <a href="trader_profile.php?id=4" class="trader-card-custom trader-card-link">
       <div class="trader-custom-bg"></div>
       <div class="trader-custom-img">
         <img src="assets/css/image/bakery.jpeg" alt="The Old Mill Bakery">
@@ -85,11 +85,11 @@ include 'include/header.php';
           <strong>The Old Mill Bakery</strong><br>
           Artisan breads baked fresh each morning. Speciality sourdoughs, pastries, and sweet treats crafted with care.
         </div>
-        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
+        <span class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
-    </div>
+    </a>
 
-    <div class="trader-card-custom">
+    <a href="trader_profile.php?id=1" class="trader-card-custom trader-card-link">
       <div class="trader-custom-bg"></div>
       <div class="trader-custom-img">
         <img src="assets/css/image/butcher.jpeg" alt="Hendersons Butchers">
@@ -100,11 +100,11 @@ include 'include/header.php';
           <strong>Hendersons Butchers</strong><br>
           Family-run butchers with 40 years tradition. Providing premium cuts of locally reared, free-range meats.
         </div>
-        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
+        <span class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
-    </div>
+    </a>
 
-    <div class="trader-card-custom">
+    <a href="trader_profile.php?id=5" class="trader-card-custom trader-card-link">
       <div class="trader-custom-bg"></div>
       <div class="trader-custom-img">
         <img src="assets/css/image/deli.jpeg" alt="La Belle Delicatessen">
@@ -115,9 +115,9 @@ include 'include/header.php';
           <strong>La Belle Delicatessen</strong><br>
           Continental cheeses and fine foods. Discover our curated collection of gourmet charcuterie and luxury hampers.
         </div>
-        <a href="shop.php" class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></a>
+        <span class="trader-custom-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 

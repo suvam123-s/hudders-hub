@@ -1,34 +1,39 @@
 <?php
 session_start();
-if (empty($_SESSION['cart'])) { header('Location: cart.php'); exit; }
+if (empty($_SESSION['cart'])) {
+  header('Location: cart.php');
+  exit;
+}
 
-$errors   = [];
+$errors = [];
 $subtotal = array_sum(array_map(fn($i) => $i['price'] * $i['qty'], $_SESSION['cart']));
-$discount_pct = (int)($_SESSION['promo_discount'] ?? 0);
-$discount_amt = (int)round($subtotal * $discount_pct / 100);
-$total        = $subtotal - $discount_amt;
-$item_count   = array_sum(array_column($_SESSION['cart'], 'qty'));
+$discount_pct = (int) ($_SESSION['promo_discount'] ?? 0);
+$discount_amt = (int) round($subtotal * $discount_pct / 100);
+$total = $subtotal - $discount_amt;
+$item_count = array_sum(array_column($_SESSION['cart'], 'qty'));
 
 $slots = [
-    'Wednesday' => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
-    'Thursday'  => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
-    'Friday'    => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
+  'Wednesday' => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
+  'Thursday' => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
+  'Friday' => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $day  = trim(htmlspecialchars($_POST['slot_day']  ?? '', ENT_QUOTES, 'UTF-8'));
-    $time = trim(htmlspecialchars($_POST['slot_time'] ?? '', ENT_QUOTES, 'UTF-8'));
-    if (!array_key_exists($day, $slots))               $errors[] = 'Please select a collection day.';
-    elseif (!in_array($time, $slots[$day] ?? [], true)) $errors[] = 'Please select a valid time slot for that day.';
-    if (empty($errors)) {
-        $_SESSION['checkout_day']  = $day;
-        $_SESSION['checkout_time'] = $time;
-        header('Location: payment.php');
-        exit;
-    }
+  $day = trim(htmlspecialchars($_POST['slot_day'] ?? '', ENT_QUOTES, 'UTF-8'));
+  $time = trim(htmlspecialchars($_POST['slot_time'] ?? '', ENT_QUOTES, 'UTF-8'));
+  if (!array_key_exists($day, $slots))
+    $errors[] = 'Please select a collection day.';
+  elseif (!in_array($time, $slots[$day] ?? [], true))
+    $errors[] = 'Please select a valid time slot for that day.';
+  if (empty($errors)) {
+    $_SESSION['checkout_day'] = $day;
+    $_SESSION['checkout_time'] = $time;
+    header('Location: payment.php');
+    exit;
+  }
 }
 
-$sel_day  = $_POST['slot_day']  ?? '';
+$sel_day = $_POST['slot_day'] ?? '';
 $sel_time = $_POST['slot_time'] ?? '';
 
 $pageTitle = 'Checkout – Hudders Hub';
@@ -73,7 +78,9 @@ include 'include/header.php';
         <?php if (!empty($errors)): ?>
           <div class="co-error-box">
             <i class="fas fa-exclamation-circle"></i>
-            <ul><?php foreach ($errors as $e): ?><li><?= htmlspecialchars($e, ENT_QUOTES, 'UTF-8') ?></li><?php endforeach; ?></ul>
+            <ul><?php foreach ($errors as $e): ?>
+                <li><?= htmlspecialchars($e, ENT_QUOTES, 'UTF-8') ?></li><?php endforeach; ?>
+            </ul>
           </div>
         <?php endif; ?>
 
@@ -83,14 +90,14 @@ include 'include/header.php';
           <p class="co-field-label">Select Day</p>
           <div class="day-cards">
             <?php
-            $dayMeta = ['Wednesday' => ['WED','🌿'], 'Thursday' => ['THU','🌱'], 'Friday' => ['FRI','🛒']];
+            $dayMeta = ['Wednesday' => ['WED', '🌿'], 'Thursday' => ['THU', '🌱'], 'Friday' => ['FRI', '🛒']];
             foreach ($dayMeta as $day => [$short, $emoji]): ?>
-            <label class="day-card <?= $sel_day === $day ? 'selected' : '' ?>">
-              <input type="radio" name="slot_day" value="<?= $day ?>" <?= $sel_day === $day ? 'checked' : '' ?>>
-              <span class="dc-emoji"><?= $emoji ?></span>
-              <span class="dc-short"><?= $short ?></span>
-              <span class="dc-full"><?= $day ?></span>
-            </label>
+              <label class="day-card <?= $sel_day === $day ? 'selected' : '' ?>">
+                <input type="radio" name="slot_day" value="<?= $day ?>" <?= $sel_day === $day ? 'checked' : '' ?>>
+                <span class="dc-emoji"><?= $emoji ?></span>
+                <span class="dc-short"><?= $short ?></span>
+                <span class="dc-full"><?= $day ?></span>
+              </label>
             <?php endforeach; ?>
           </div>
 
@@ -128,28 +135,28 @@ include 'include/header.php';
 
         <div class="co-summary-items">
           <?php foreach ($_SESSION['cart'] as $item): ?>
-          <div class="co-si-row">
-            <img src="<?= htmlspecialchars($item['img'], ENT_QUOTES, 'UTF-8') ?>"
-                 alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>"
-                 onerror="this.src='assets/css/image/market-hero.png'">
-            <div class="co-si-info">
-              <span class="co-si-name"><?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?></span>
-              <span class="co-si-qty">Qty: <?= $item['qty'] ?></span>
+            <div class="co-si-row">
+              <img src="<?= htmlspecialchars($item['img'], ENT_QUOTES, 'UTF-8') ?>"
+                alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>"
+                onerror="this.src='assets/css/image/market-hero.png'">
+              <div class="co-si-info">
+                <span class="co-si-name"><?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?></span>
+                <span class="co-si-qty">Qty: <?= $item['qty'] ?></span>
+              </div>
+              <span class="co-si-price">$<?= number_format($item['price'] * $item['qty']) ?></span>
             </div>
-            <span class="co-si-price">$<?= number_format($item['price'] * $item['qty']) ?></span>
-          </div>
           <?php endforeach; ?>
         </div>
 
         <div class="co-summary-foot">
           <?php if ($discount_pct > 0): ?>
-          <div class="co-foot-row">
-            <span>Subtotal</span><span>$<?= number_format($subtotal) ?></span>
-          </div>
-          <div class="co-foot-row discount">
-            <span>Discount (<?= $discount_pct ?>% off)</span>
-            <span>-$<?= number_format($discount_amt) ?></span>
-          </div>
+            <div class="co-foot-row">
+              <span>Subtotal</span><span>$<?= number_format($subtotal) ?></span>
+            </div>
+            <div class="co-foot-row discount">
+              <span>Discount (<?= $discount_pct ?>% off)</span>
+              <span>-$<?= number_format($discount_amt) ?></span>
+            </div>
           <?php endif; ?>
           <div class="co-foot-row total">
             <span>Total</span>
@@ -170,39 +177,39 @@ include 'include/header.php';
 <?php include 'include/footer.php'; ?>
 
 <script>
-const slots = <?= json_encode($slots) ?>;
+  const slots = <?= json_encode($slots) ?>;
 
-// Day card selection + repopulate time dropdown
-document.querySelectorAll('.day-card').forEach(card => {
-  card.addEventListener('click', function() {
-    document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
-    this.classList.add('selected');
-    const day = this.querySelector('input').value;
-    const sel = document.getElementById('timeSelect');
-    sel.innerHTML = '<option value="">— Choose a time —</option>';
-    slots[day].forEach(t => {
-      const o = document.createElement('option');
-      o.value = t; o.textContent = t;
-      sel.appendChild(o);
+  // Day card selection + repopulate time dropdown
+  document.querySelectorAll('.day-card').forEach(card => {
+    card.addEventListener('click', function () {
+      document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+      const day = this.querySelector('input').value;
+      const sel = document.getElementById('timeSelect');
+      sel.innerHTML = '<option value="">— Choose a time —</option>';
+      slots[day].forEach(t => {
+        const o = document.createElement('option');
+        o.value = t; o.textContent = t;
+        sel.appendChild(o);
+      });
+      updateBar();
     });
-    updateBar();
   });
-});
 
-document.getElementById('timeSelect').addEventListener('change', updateBar);
+  document.getElementById('timeSelect').addEventListener('change', updateBar);
 
-function updateBar() {
-  const day  = document.querySelector('.day-card.selected input')?.value;
-  const time = document.getElementById('timeSelect').value;
-  const bar  = document.getElementById('slotBar');
-  if (day && time) {
-    document.getElementById('slotBarText').textContent = day + '  ·  ' + time;
-    bar.style.display = 'flex';
-  } else {
-    bar.style.display = 'none';
+  function updateBar() {
+    const day = document.querySelector('.day-card.selected input')?.value;
+    const time = document.getElementById('timeSelect').value;
+    const bar = document.getElementById('slotBar');
+    if (day && time) {
+      document.getElementById('slotBarText').textContent = day + '  ·  ' + time;
+      bar.style.display = 'flex';
+    } else {
+      bar.style.display = 'none';
+    }
   }
-}
 
-// Init bar if values already set (e.g. after validation error)
-updateBar();
+  // Init bar if values already set (e.g. after validation error)
+  updateBar();
 </script>

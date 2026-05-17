@@ -604,6 +604,29 @@ a {
     color: white;
 }
 
+/* Clickable trader card link */
+a.trader-card-custom.trader-card-link {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+a.trader-card-custom.trader-card-link:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.15);
+}
+
+a.trader-card-custom.trader-card-link:hover .trader-custom-arrow {
+    background-color: var(--dark-green);
+    color: white;
+}
+
+a.trader-card-custom.trader-card-link:hover .trader-custom-bg {
+    background-color: #8fa07e;
+}
+
 /* ============================================================
    FEATURED PRODUCTS
    ============================================================ */

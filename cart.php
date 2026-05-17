@@ -74,10 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   exit;
 }
 
-// ── Cart is populated via shop/product pages ──
-// No demo data — items are added via AJAX from shop.php and product_detail.php
-
-
 // ── Handle POST actions ───────────────────────────────────────
 $action = $_POST['action'] ?? '';
 $item_id = (int) ($_POST['item_id'] ?? -1);

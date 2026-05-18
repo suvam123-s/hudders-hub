@@ -604,29 +604,6 @@ a {
     color: white;
 }
 
-/* Clickable trader card link */
-a.trader-card-custom.trader-card-link {
-    display: flex;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-a.trader-card-custom.trader-card-link:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 36px rgba(0,0,0,0.15);
-}
-
-a.trader-card-custom.trader-card-link:hover .trader-custom-arrow {
-    background-color: var(--dark-green);
-    color: white;
-}
-
-a.trader-card-custom.trader-card-link:hover .trader-custom-bg {
-    background-color: #8fa07e;
-}
-
 /* ============================================================
    FEATURED PRODUCTS
    ============================================================ */
@@ -4864,3 +4841,284 @@ body {
         box-shadow: none;
     }
 }
+
+/* ============================================================
+   GLOBAL RESPONSIVE OVERHAUL
+   Mobile-first additions — covers header, hero, traders,
+   shop sidebar, cart, checkout and all shared components.
+   ============================================================ */
+
+/* ── Hamburger Button ───────────────────────────────────────── */
+.hamburger {
+    display: none;            /* hidden on desktop */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: #f7f3ec;
+    border: 1px solid #c2b6a3;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.2s;
+    z-index: 200;
+}
+
+.hamburger:hover { background: #ded4c2; }
+
+.hamburger span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #1f2a1f;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+}
+
+/* Animate to ✕ when open */
+.hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile Nav Overlay ─────────────────────────────────────── */
+.mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.mobile-nav-overlay.open { opacity: 1; }
+
+/* ── Mobile Nav Drawer ──────────────────────────────────────── */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 270px;
+    height: 100%;
+    background: #F5F2E8;
+    z-index: 160;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+    transition: right 0.32s cubic-bezier(0.4,0,0.2,1);
+    overflow-y: auto;
+}
+.mobile-nav.open { right: 0; }
+
+.mobile-nav-inner {
+    display: flex;
+    flex-direction: column;
+    padding: 80px 0 2rem;
+}
+
+.mobile-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1f2a1f;
+    text-decoration: none;
+    border-bottom: 1px solid #E8E4CC;
+    transition: background 0.15s, color 0.15s;
+}
+.mobile-nav-item:hover { background: #E8E4CC; color: #2C3A1E; }
+.mobile-nav-item i { width: 18px; text-align: center; color: #5C6B3A; }
+
+.mobile-nav-logout { color: #b94040; }
+.mobile-nav-logout i { color: #b94040; }
+.mobile-nav-logout:hover { background: #fff0f0; }
+
+.mobile-cart-badge {
+    background: #e74c3c;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 4px;
+}
+
+/* ── Utility: hide/show header actions at breakpoints ────────── */
+@media (max-width: 768px) {
+    /* Show hamburger, hide desktop actions */
+    .hamburger { display: flex; }
+    .header-right { display: none; }
+    .mobile-nav-overlay { display: block; pointer-events: none; }
+    .mobile-nav-overlay.open { pointer-events: auto; }
+
+    /* Tighter header padding on mobile */
+    .header-inner {
+        padding: 12px 16px;
+        justify-content: space-between;
+    }
+
+    /* Logo stays visible */
+    .logo img { width: 42px; height: 42px; }
+}
+
+/* ── Hero Section ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .hero-inner {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 2rem 1.5rem 0;
+        gap: 0;
+    }
+
+    .hero-image {
+        width: 80%;
+        max-width: 380px;
+        margin: 0 auto;
+        justify-content: center;
+    }
+
+    .hero-text {
+        transform: none;
+        padding: 1.5rem 0 2rem;
+    }
+
+    .hero-text h1 { font-size: 2.2rem; }
+
+    .hero-btns { justify-content: center; }
+}
+
+@media (max-width: 540px) {
+    .hero-text h1 { font-size: 1.75rem; }
+    .hero-text p  { font-size: 0.95rem; }
+    .hero-image   { width: 90%; }
+
+    .hero-btns {
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-btns .btn { width: 100%; max-width: 280px; justify-content: center; }
+}
+
+/* ── Traders Grid ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .traders-grid-custom {
+        gap: 2rem 1.5rem;
+    }
+    .trader-card-custom { width: 300px; height: 190px; }
+}
+
+@media (max-width: 680px) {
+    .traders-grid-custom { flex-direction: column; align-items: center; }
+    .trader-card-custom  { width: 90%; max-width: 360px; height: 200px; }
+}
+
+/* ── Featured Products ──────────────────────────────────────── */
+@media (max-width: 768px) {
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+}
+@media (max-width: 480px) {
+    .products-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .footer-inner {
+        flex-direction: column;
+        padding: 0 24px;
+        gap: 1.5rem;
+    }
+    .footer-brand { flex: unset; }
+}
+
+/* ── User Profile Page ──────────────────────────────────────── */
+@media (max-width: 480px) {
+    .profile-section { padding: 2rem 1rem; }
+    .profile-avatar-circle { width: 110px; height: 110px; }
+    .profile-purchase-card { flex-direction: column; }
+    .profile-purchase-img-placeholder { width: 100%; height: 120px; }
+    .profile-purchase-meta { flex-direction: column; gap: 0.5rem; }
+}
+
+/* ── Update Profile / Auth Forms ────────────────────────────── */
+@media (max-width: 480px) {
+    .auth-combined-section { padding: 1.5rem 1rem; }
+    .auth-combined-box     { padding: 1.5rem 1rem; }
+}
+
+/* ── Cart Page ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .cart-page { padding: 30px 0 50px; }
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+    }
+    .cart-item-img { width: 100%; height: 140px; object-fit: cover; }
+    .cart-item-delete { top: 8px; right: 8px; }
+}
+
+/* ── Checkout / Payment ──────────────────────────────────────── */
+@media (max-width: 480px) {
+    .co-steps   { gap: 0; }
+    .step-connector { width: 24px; }
+    .co-step span { font-size: 0.6rem; }
+    .day-cards    { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .dc-emoji     { font-size: 1.1rem; }
+    .dc-short     { font-size: 0.78rem; }
+}
+
+/* ── Product Detail ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .product-detail-main   { padding: 1.5rem 1rem; }
+    .product-detail-title  { font-size: 1.4rem; }
+}
+
+/* ── Shop Sidebar (collapsible on mobile) ───────────────────── */
+@media (max-width: 768px) {
+    .shop-sidebar {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .category-list li { padding: 7px 4px; }
+}
+
+/* ── Invoice ─────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .inv-title { font-size: 1.6rem; }
+    .inv-card  { padding: 18px 12px; }
+    .inv-due-amount { font-size: 1.3rem; }
+    .inv-actions { flex-direction: column; align-items: center; }
+    .inv-btn-back, .inv-btn-print { width: 100%; justify-content: center; }
+}
+
+/* ── Order Confirmed ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .oc-card { padding: 28px 14px; border-radius: 16px; }
+    .oc-title { font-size: 1.5rem; }
+    .oc-tiles { grid-template-columns: 1fr 1fr; }
+    .oc-btn-shop, .oc-btn-home { width: 100%; justify-content: center; }
+}
+
+/* ── Global: prevent horizontal overflow ────────────────────── */
+html, body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fluid containers for very small screens */
+@media (max-width: 360px) {
+    .container,
+    .co-wrap,
+    .cart-inner,
+    .co-wrap {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}

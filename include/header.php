@@ -14,6 +14,25 @@ $cart_count = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'
 </head>
 <body>
 
+<!-- Mobile nav overlay -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()" aria-hidden="true"></div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <div class="mobile-nav-inner">
+    <a href="index.php" class="mobile-nav-item"><i class="fas fa-home"></i> Home</a>
+    <a href="shop.php" class="mobile-nav-item"><i class="fas fa-store"></i> Shop</a>
+    <a href="aboutus.php" class="mobile-nav-item"><i class="fas fa-info-circle"></i> About Us</a>
+    <a href="contactus.php" class="mobile-nav-item"><i class="fas fa-envelope"></i> Contact</a>
+    <?php if (isset($_SESSION['user_id'])): ?>
+    <a href="user_profile.php" class="mobile-nav-item"><i class="fas fa-user"></i> Profile</a>
+    <a href="cart.php" class="mobile-nav-item"><i class="fas fa-shopping-cart"></i> Cart <?php if($cart_count > 0): ?><span class="mobile-cart-badge"><?= $cart_count ?></span><?php endif; ?></a>
+    <a href="logout.php" class="mobile-nav-item mobile-nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <?php else: ?>
+    <a href="Login.php" class="mobile-nav-item"><i class="fas fa-sign-in-alt"></i> Login</a>
+    <a href="Register.php" class="mobile-nav-item"><i class="fas fa-user-plus"></i> Register</a>
+    <?php endif; ?>
+  </div>
+</nav>
+
 <header class="site-header">
   <div class="header-inner">
 
@@ -106,5 +125,33 @@ $cart_count = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'
 
     </div>
 
+    <!-- Hamburger button (mobile only) -->
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
   </div>
 </header>
+
+<script>
+function toggleMobileNav() {
+  const nav     = document.getElementById('mobileNav');
+  const overlay = document.getElementById('mobileNavOverlay');
+  const btn     = document.getElementById('hamburgerBtn');
+  const open    = nav.classList.toggle('open');
+  overlay.classList.toggle('open', open);
+  btn.classList.toggle('is-open', open);
+  btn.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeMobileNav() {
+  const nav     = document.getElementById('mobileNav');
+  const overlay = document.getElementById('mobileNavOverlay');
+  const btn     = document.getElementById('hamburgerBtn');
+  nav.classList.remove('open');
+  overlay.classList.remove('open');
+  btn.classList.remove('is-open');
+  btn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+</script>

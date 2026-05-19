@@ -5,6 +5,13 @@ if (empty($_SESSION['cart'])) {
   exit;
 }
 
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['redirect_after_login'] = 'checkout.php';
+    $_SESSION['login_error'] = "Please log in to proceed to checkout.";
+    header('Location: Login.php');
+    exit;
+}
+
 $errors = [];
 $subtotal = array_sum(array_map(fn($i) => $i['price'] * $i['qty'], $_SESSION['cart']));
 $discount_pct = (int) ($_SESSION['promo_discount'] ?? 0);

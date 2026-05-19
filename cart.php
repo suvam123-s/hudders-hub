@@ -2,46 +2,8 @@
 session_start();
 
 // ── Product catalogue ─────────────────────────────────────────
-$catalogue = [
-  1 => ['name' => 'Orange', 'price' => 1.49, 'image' => 'assets/css/image/orange.jpg'],
-  2 => ['name' => 'Banana', 'price' => 1.29, 'image' => 'assets/css/image/bannan.png'],
-  3 => ['name' => 'Pineapple', 'price' => 2.50, 'image' => 'assets/css/image/pineapple.jpg'],
-  4 => ['name' => 'Pomegranate', 'price' => 2.99, 'image' => 'assets/css/image/fomegranate.jpg'],
-  5 => ['name' => 'Broccoli', 'price' => 1.20, 'image' => 'assets/css/image/broccoli.png'],
-  6 => ['name' => 'Cauliflower', 'price' => 1.50, 'image' => 'assets/css/image/cauliflower.png'],
-  7 => ['name' => 'Salmon', 'price' => 6.90, 'image' => 'assets/css/image/salmon.png'],
-  8 => ['name' => 'Steak', 'price' => 8.50, 'image' => 'assets/css/image/steak.png'],
-  9 => ['name' => 'Sourdough', 'price' => 3.50, 'image' => 'assets/css/image/sourdough.png'],
-  10 => ['name' => 'Bagels', 'price' => 2.50, 'image' => 'assets/css/image/bagels.jpg'],
-  11 => ['name' => 'Croissant', 'price' => 1.80, 'image' => 'assets/css/image/croissant.jpg'],
-  12 => ['name' => 'Cake', 'price' => 4.50, 'image' => 'assets/css/image/cake.jpg'],
-  13 => ['name' => 'Donuts', 'price' => 3.00, 'image' => 'assets/css/image/donuts.jpg'],
-  14 => ['name' => 'Muffins', 'price' => 2.20, 'image' => 'assets/css/image/muffins.jpg'],
-  15 => ['name' => 'Cheese', 'price' => 5.50, 'image' => 'assets/css/image/cheese.jpg'],
-  16 => ['name' => 'Ham', 'price' => 4.20, 'image' => 'assets/css/image/ham.jpg'],
-  17 => ['name' => 'Prawns', 'price' => 8.90, 'image' => 'assets/css/image/prawns.jpg'],
-  18 => ['name' => 'Coffee', 'price' => 6.50, 'image' => 'assets/css/image/coffee.jpg'],
-  19 => ['name' => 'Cooking Oil', 'price' => 3.20, 'image' => 'assets/css/image/cooking oil.jpg'],
-  20 => ['name' => 'Sugar', 'price' => 1.50, 'image' => 'assets/css/image/sugar.jpg'],
-  21 => ['name' => 'Lemon Zest', 'price' => 1.10, 'image' => 'assets/css/image/Lemon zest.png'],
-  22 => ['name' => 'Fish Fillet', 'price' => 7.50, 'image' => 'assets/css/image/Fish fillet.jpg'],
-  23 => ['name' => 'Frozen Chicken', 'price' => 5.50, 'image' => 'assets/css/image/Frozen chicken.jpg'],
-  24 => ['name' => 'Lobster', 'price' => 25.00, 'image' => 'assets/css/image/Lobster.jpg'],
-  25 => ['name' => 'Tuna', 'price' => 12.00, 'image' => 'assets/css/image/Tuna.jpg'],
-  26 => ['name' => 'Bacon', 'price' => 4.80, 'image' => 'assets/css/image/bacon.jpg'],
-  27 => ['name' => 'Beef Steak', 'price' => 10.50, 'image' => 'assets/css/image/beef steak.jpg'],
-  28 => ['name' => 'Pickle', 'price' => 2.50, 'image' => 'assets/css/image/pickle.jpg'],
-  29 => ['name' => 'Salad', 'price' => 3.50, 'image' => 'assets/css/image/salad.jpg'],
-  30 => ['name' => 'Sandwich', 'price' => 4.50, 'image' => 'assets/css/image/sandwich.jpg'],
-  31 => ['name' => 'Cookies', 'price' => 2.80, 'image' => 'assets/css/image/Cookies.jpg'],
-  32 => ['name' => 'Frozen Mutton', 'price' => 14.50, 'image' => 'assets/css/image/Frozen mutton.jpg'],
-  33 => ['name' => 'Olives', 'price' => 3.20, 'image' => 'assets/css/image/Olives.jpg'],
-  34 => ['name' => 'Sausage', 'price' => 5.00, 'image' => 'assets/css/image/Sausage.jpg'],
-  35 => ['name' => 'Bread', 'price' => 2.00, 'image' => 'assets/css/image/bread.jpg'],
-  37 => ['name' => 'Pastries', 'price' => 3.50, 'image' => 'assets/css/image/pastries.jpg'],
-  38 => ['name' => 'Salami', 'price' => 4.80, 'image' => 'assets/css/image/salami.jpg'],
-  39 => ['name' => 'Smoked Meat', 'price' => 6.00, 'image' => 'assets/css/image/smoked meat.jpg'],
-];
+require_once 'include/products_data.php';
+$catalogue = $products;
 
 // ── Handle POST actions ───────────────────────────────────────
 $action = $_POST['action'] ?? '';

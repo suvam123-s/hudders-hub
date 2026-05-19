@@ -80,6 +80,9 @@ $cart_count = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'
           </div>
         </div>
 
+        <a href="wishlist.php" class="cart-icon" title="Your Wishlist" style="margin-right: 15px;">
+          <i class="fas fa-heart"></i>
+        </a>
         <a href="cart.php" class="cart-icon" title="Your Cart">
           <i class="fas fa-shopping-cart"></i>
           <?php if ($cart_count > 0): ?>
@@ -110,6 +113,9 @@ $cart_count = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'
         <a href="Login.php" class="btn btn-header btn-login">Login</a>
         <a href="Register.php" class="btn btn-header btn-register">Register</a>
 
+        <a href="wishlist.php" class="cart-icon" title="Your Wishlist" style="margin-right: 15px;">
+          <i class="fas fa-heart"></i>
+        </a>
         <a href="cart.php" class="cart-icon" title="Your Cart">
           <i class="fas fa-shopping-cart"></i>
           <?php if ($cart_count > 0): ?>

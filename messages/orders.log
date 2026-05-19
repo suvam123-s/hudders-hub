@@ -31,3 +31,33 @@ Subtotal:    $80
 Discount:    -$0
 Total Paid:  $80
 
+========================================
+ORDER REF:   1FB79E4B
+DATE:        2026-05-18 09:13:00
+Collection:  Wednesday @ 12:00 – 14:00
+Payment:     PayPal (LIVE)
+PayPal TXN:  6M626500TJ955704Y
+Payer:       John Doe <sb-q8ebx51219770@personal.example.com>
+Items:
+  - Salmon x3 = $6.9
+  - Steak x1 = $8.5
+  - Sourdough x1 = $3.5
+  - Cheese x1 = $5.5
+  - Ham x1 = $4.2
+Subtotal:    $42.4
+Discount:    -$0
+Total Paid:  $42.4
+
+========================================
+ORDER REF:   4B6E85D3
+DATE:        2026-05-19 17:43:34
+Collection:  Wednesday @ 10:00 – 12:00
+Payment:     PayPal (LIVE)
+PayPal TXN:  5CM901279L810071H
+Payer:       Harrison Ray <sb-9gjgf50944015@personal.example.com>
+Items:
+  - Mixed Salad Leaves x1 = $1.8
+Subtotal:    $1.8
+Discount:    -$0
+Total Paid:  $1.8
+

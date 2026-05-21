@@ -91,7 +91,15 @@ $activeTab = $_GET['tab'] ?? 'login'; // 'login' or 'register'
             <i class="fas fa-sign-in-alt"></i> Log In
           </button>
 
-          <p class="auth-switch-link">
+          <div style="text-align: center; margin: 1.5rem 0;">
+            <span style="color: #666; font-size: 0.9rem; font-weight: 500;">Are you a trader?</span>
+          </div>
+
+          <a href="http://localhost:8888/ords/r/smritii/huddershub-market/login?session=16297744733709" class="btn btn-auth-primary" style="background-color: #2c3e50; border-color: #2c3e50; display: block; text-align: center; text-decoration: none;">
+            <i class="fas fa-store"></i> Trader Portal Login
+          </a>
+
+          <p class="auth-switch-link" style="margin-top: 1.5rem;">
             Don't have an account?
             <a href="#" onclick="switchTab('register'); return false;">Sign up here</a>
           </p>

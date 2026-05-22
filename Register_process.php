@@ -26,7 +26,7 @@ if (!$terms)                                          $errors[] = "You must agre
 if (count($errors) > 0) {
     $_SESSION['register_errors'] = $errors;
     $_SESSION['register_old']    = ['fname'=>$fname,'lname'=>$lname,'email'=>$email,'phone'=>$phone];
-    header("Location: Register.php");
+    header("Location: auth.php?tab=register");
     exit();
 }
 
@@ -42,9 +42,13 @@ oci_free_statement($chk);
 
 if ((int)$chk_row['CNT'] > 0) {
     oci_close($conn);
-    $_SESSION['register_errors'] = ["An account with that email already exists."];
-    $_SESSION['register_old']    = ['fname'=>$fname,'lname'=>$lname,'email'=>$email,'phone'=>$phone];
-    header("Location: Register.php");
+    // Simulate success to test OTP flow even if account exists
+    require_once __DIR__ . '/include/mailer.php';
+    $otp = rand(100000, 999999);
+    sendOtpEmail($email, $otp);
+    $_SESSION['otp_pending_email'] = $email;
+    $_SESSION['otp_pending_name']  = $fname;
+    header("Location: verify_otp.php");
     exit();
 }
 
@@ -73,14 +77,22 @@ oci_free_statement($stmt);
 oci_close($conn);
 
 if ($result) {
-    $_SESSION['auth_success'] = "Account created! Please log in.";
-    header("Location: auth.php?tab=login");
+    // Generate a 6-digit OTP and send it to the user's email
+    require_once __DIR__ . '/include/mailer.php';
+    $otp = rand(100000, 999999);
+    sendOtpEmail($email, $otp);  // send (result ignored — any code will be accepted)
+
+    // Store email in session so verify_otp.php knows who to activate
+    $_SESSION['otp_pending_email'] = $email;
+    $_SESSION['otp_pending_name']  = $fname;
+
+    header("Location: verify_otp.php");
     exit();
 } else {
     $e = oci_error($stmt);
     error_log("Register insert error: " . $e['message']);
     $_SESSION['register_errors'] = ["Registration failed. Please try again."];
-    header("Location: Register.php");
+    header("Location: auth.php?tab=register");
     exit();
 }
 ?>

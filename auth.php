@@ -111,20 +111,20 @@ $activeTab = $_GET['tab'] ?? 'login'; // 'login' or 'register'
         <h3 class="auth-form-heading">Create an account</h3>
         <p class="auth-form-sub">Join Hudders Hub and start shopping local.</p>
 
-        <form class="auth-form" action="Register_process.php" method="post">
+        <form class="auth-form" action="Register_process.php" method="post" autocomplete="off">
           <div class="auth-form-row">
             <div class="form-group">
               <label for="reg_fname">First Name</label>
               <div class="auth-input-group">
                 <span class="auth-input-icon"><i class="fas fa-user"></i></span>
-                <input type="text" id="reg_fname" name="fname" placeholder="John" required>
+                <input type="text" id="reg_fname" name="fname" placeholder="John" required autocomplete="off">
               </div>
             </div>
             <div class="form-group">
               <label for="reg_lname">Last Name</label>
               <div class="auth-input-group">
                 <span class="auth-input-icon"><i class="fas fa-user"></i></span>
-                <input type="text" id="reg_lname" name="lname" placeholder="Smith" required>
+                <input type="text" id="reg_lname" name="lname" placeholder="Smith" required autocomplete="off">
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@ $activeTab = $_GET['tab'] ?? 'login'; // 'login' or 'register'
             <label for="reg_email">Email Address</label>
             <div class="auth-input-group">
               <span class="auth-input-icon"><i class="fas fa-envelope"></i></span>
-              <input type="email" id="reg_email" name="email" placeholder="you@example.com" required>
+              <input type="email" id="reg_email" name="email" placeholder="you@example.com" required autocomplete="off">
             </div>
           </div>
 
@@ -141,7 +141,7 @@ $activeTab = $_GET['tab'] ?? 'login'; // 'login' or 'register'
             <label for="reg_phone">Phone Number</label>
             <div class="auth-input-group">
               <span class="auth-input-icon"><i class="fas fa-phone"></i></span>
-              <input type="text" id="reg_phone" name="phone" placeholder="+44 7700 000000" required>
+              <input type="text" id="reg_phone" name="phone" placeholder="+44 7700 000000" required autocomplete="off">
             </div>
           </div>
 
@@ -149,7 +149,7 @@ $activeTab = $_GET['tab'] ?? 'login'; // 'login' or 'register'
             <label for="reg_password">Create Password</label>
             <div class="auth-input-group">
               <span class="auth-input-icon"><i class="fas fa-lock"></i></span>
-              <input type="password" id="reg_password" name="password" placeholder="Min. 8 characters" required>
+              <input type="password" id="reg_password" name="password" placeholder="Min. 8 characters" required autocomplete="new-password">
               <button type="button" class="toggle-pw" onclick="togglePw('reg_password', this)" tabindex="-1">
                 <i class="fas fa-eye"></i>
               </button>

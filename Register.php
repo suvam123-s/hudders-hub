@@ -18,27 +18,27 @@ include 'include/header.php';
         
         <div class="form-group">
           <label for="fname">First Name</label>
-          <input type="text" id="fname" name="fname" required>
+          <input type="text" id="fname" name="fname" required autocomplete="off">
         </div>
 
         <div class="form-group">
           <label for="lname">Last Name</label>
-          <input type="text" id="lname" name="lname" required>
+          <input type="text" id="lname" name="lname" required autocomplete="off">
         </div>
 
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" id="email" name="email" required autocomplete="off">
         </div>
 
         <div class="form-group">
           <label for="phone">Phone Number</label>
-          <input type="text" id="phone" name="phone" required>
+          <input type="text" id="phone" name="phone" required autocomplete="off">
         </div>
 
         <div class="form-group">
           <label for="password">Create Password</label>
-          <input type="password" id="password" name="password" required>
+          <input type="password" id="password" name="password" required autocomplete="new-password">
         </div>
 
         <div class="form-options">

@@ -20,10 +20,52 @@ $total = $subtotal - $discount_amt;
 $item_count = array_sum(array_column($_SESSION['cart'], 'qty'));
 
 $slots = [
-  'Wednesday' => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
-  'Thursday' => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
-  'Friday' => ['10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00', '16:00 – 18:00'],
+  'Wednesday' => ['10:00 – 13:00', '12:00 – 13:00', '16:00 – 16:00'],
+  'Thursday' => ['10:00 – 13:00', '12:00 – 13:00', '16:00 – 16:00'],
+  'Friday' => ['10:00 – 13:00', '12:00 – 13:00', '16:00 – 16:00'],
 ];
+
+// Check if a timeslot is full based on orders.log
+function is_slot_full($day, $time) {
+    $log_path = __DIR__ . '/messages/orders.log';
+    if (!file_exists($log_path)) {
+        return false;
+    }
+    $content = file_get_contents($log_path);
+    
+    $normalize = function($str) {
+        $str = str_replace(['–', '—', '-'], '-', $str);
+        $str = preg_replace('/\s+/', '', $str);
+        return strtolower($str);
+    };
+    
+    $norm_day = $normalize($day);
+    $norm_time = $normalize($time);
+    
+    $count = 0;
+    if (preg_match_all('/Collection:\s*([a-zA-Z]+)\s*@\s*([^\r\n]+)/i', $content, $matches)) {
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            $log_day = $normalize($matches[1][$i]);
+            $log_time_str = trim($matches[2][$i]);
+            $log_time_norm = $normalize($log_time_str);
+            
+            if ($log_day === $norm_day) {
+                if ($log_time_norm === $norm_time) {
+                    $count++;
+                } else {
+                    $log_parts = explode('-', $log_time_norm);
+                    $chosen_parts = explode('-', $norm_time);
+                    if (!empty($log_parts[0]) && !empty($chosen_parts[0]) && $log_parts[0] === $chosen_parts[0]) {
+                        $count++;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Max capacity: 1 order per timeslot for testing/demo
+    return $count >= 1;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $day = trim(htmlspecialchars($_POST['slot_day'] ?? '', ENT_QUOTES, 'UTF-8'));
@@ -33,6 +75,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   elseif (!in_array($time, $slots[$day] ?? [], true))
     $errors[] = 'Please select a valid time slot for that day.';
   if (empty($errors)) {
+    if (is_slot_full($day, $time)) {
+      $_SESSION['full_slot_day'] = $day;
+      $_SESSION['full_slot_time'] = $time;
+      header('Location: timeslot.php');
+      exit;
+    }
     $_SESSION['checkout_day'] = $day;
     $_SESSION['checkout_time'] = $time;
     header('Location: payment.php');

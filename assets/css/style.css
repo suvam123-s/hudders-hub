@@ -5121,4 +5121,104 @@ img {
         padding-left: 12px;
         padding-right: 12px;
     }
-}
+}
+
+/* ── Timeslot Full Page (timeslot.php) ───────── */
+.tf-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 60px 40px;
+    box-shadow: 0 4px 28px rgba(0, 0, 0, 0.07);
+    max-width: 580px;
+    margin: 40px auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.tf-icon-wrap {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+}
+
+.tf-icon-wrap i {
+    font-size: 5rem;
+    color: #e53e3e; /* Red color matching the screenshot calendar X */
+}
+
+.tf-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.tf-text {
+    font-size: 0.95rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 440px;
+}
+
+.tf-text strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.tf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: #d97706; /* Orange-brown background matching the screenshot */
+    color: #fff !important;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+}
+
+.tf-btn:hover {
+    background: #b45309;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.45);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .tf-card {
+        padding: 40px 20px;
+        margin: 20px 10px;
+    }
+    .tf-title {
+        font-size: 1.5rem;
+    }
+    .tf-text {
+        font-size: 0.88rem;
+    }
+}
+

@@ -49,7 +49,7 @@ function sendOtpEmail($to, $otp)
 
                     <!-- Header / Brand bar -->
                     <tr>
-                        <td style='background:linear-gradient(135deg, #1a2a6c 0%, #2c5364 100%); padding:30px 40px; text-align:center;'>
+                        <td style='background:linear-gradient(135deg, #909c97ff 0%, #599c83ff 100%); padding:30px 40px; text-align:center;'>
                             <h1 style='margin:0; color:#ffffff; font-size:26px; letter-spacing:1px; font-weight:bold;'>
                                 HUDDERS <span style='color:#ffd166;'>HUB</span>
                             </h1>

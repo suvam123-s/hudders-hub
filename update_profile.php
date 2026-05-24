@@ -71,6 +71,28 @@ include 'include/header.php';
                 </div>
             </div>
 
+            <div class="password-section">
+                <hr class="profile-divider">
+                <h2 class="update-subtitle">Change Password</h2>
+                
+                <div class="update-fields">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" name="current_password" placeholder="Leave blank to keep current password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" name="new_password" placeholder="New password">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" name="confirm_password" placeholder="Confirm new password">
+                    </div>
+                </div>
+            </div>
+
             <div class="update-form-actions">
                 <a href="user_profile.php" class="btn-cancel">Cancel</a>
                 <button type="submit" class="btn-save">Save profile</button>

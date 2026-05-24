@@ -156,7 +156,7 @@ include 'include/header.php';
       <div class="shop-card" data-product-id="<?= $pid ?>">
         <div class="shop-card-img">
           <a href="product_detail.php?id=<?= $pid ?>">
-            <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>">
+            <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" onerror="this.onerror=null; this.src='assets/css/image/logo.png';">
           </a>
           <button class="wishlist-btn <?= $is_wishlisted ? 'wishlisted' : '' ?>"
                   data-product-id="<?= $pid ?>"
